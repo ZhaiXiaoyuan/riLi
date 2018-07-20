@@ -1,0 +1,67 @@
+.consultant{
+  background: #fff;
+  overflow: hidden;
+  .staff-info-panel{
+    position: relative;
+    z-index: 1;
+    padding: 0.94rem 0rem 0.4rem 0rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    .avatar{
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+    }
+    .phone{
+      margin-top: 0.45rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.32rem;
+      color:#333;
+      a{
+        margin-left: 0.08rem;
+        padding: 0.04rem 0.16rem;
+        font-size: 0.24rem;
+        color: #00C3B3;
+        border: 1px solid #00C3B3;
+      }
+    }
+  }
+  .site-panel{
+    position: relative;
+    z-index: 1;
+    padding: 0.2rem;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    .item{
+      display: flex;
+      font-size: 0.28rem;
+      color: #666;
+      .field{
+        flex: 1;
+      }
+      .value{
+        flex: 2;
+        text-align: right;
+      }
+      &+.item{
+        margin-top: 0.32rem;
+      }
+    }
+  }
+  .example-panel{
+    padding-top: 1.2rem;
+    width: 100%;
+    position: absolute;
+    top: 6.12rem;
+    bottom: 0px;
+    left: 0px;
+    background: #fff;
+    img{
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,101 @@
+.my-score{
+  .survey-panel{
+    .panel-bd{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      height: 2.5rem;
+      color: #fff;
+      background: #12C2B3;
+      p{
+        font-size: 0.24rem;
+        &+p{
+          padding-top: 0.2rem;
+          font-size: 0.7rem;
+        }
+      }
+    }
+    .panel-ft{
+      display: flex;
+      >div{
+        flex: 1;
+        height: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff;
+        .icon{
+          margin-right: 0.08rem;
+        }
+        &+div{
+          position: relative;
+          &:before{
+            .cm-left-border();
+            height: 0.6rem;
+            transform: scaleX(1);
+          }
+        }
+      }
+    }
+  }
+  .list-panel{
+    margin-top: 0.3rem;
+    .panel-hd{
+      display: flex;
+      font-size: 0.24rem;
+      color: #12C2B3;
+      span{
+        padding: 0.1rem 0rem;
+        flex: 1;
+        text-align: center;
+        border: 1px solid #12C2B3;
+        &.active{
+          background: #12C2B3;
+          color: #fff;
+        }
+      }
+    }
+    .panel-bd{
+    /*  border-top: 1px solid #e5e5e5;*/
+      border-bottom: 1px solid #e5e5e5;
+      background: #fff;
+      .entry-list{
+        padding-left: 0.2rem;
+      }
+      .entry{
+        padding: 0.24rem 0.3rem 0.24rem 0.1rem;
+        .entry-bd{
+          display: flex;
+          align-items: center;
+          .field{
+            font-size: 0.3rem;
+            color: #333;
+          }
+          .value{
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+            font-size: 0.32rem;
+            color: #00D8A4;
+            .icon{
+              margin-right: 0.02rem;
+              font-size: 0.36rem;
+            }
+            &.error{
+              color: #EF4C66;
+            }
+          }
+        }
+        .entry-ft{
+          margin-top: 0.2rem;
+          font-size: 0.24rem;
+          color: #999;
+        }
+        &+.entry{
+          border-top: 1px solid #e5e5e5;
+        }
+      }
+    }
+  }
+}

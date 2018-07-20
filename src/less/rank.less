@@ -1,0 +1,75 @@
+.rank{
+  .survey-panel{
+    color: #fff;
+    background: #12C2B3;
+    padding: 0.5rem 0rem;
+    .panel-hd{
+      text-align: center;
+      .title{
+        font-size: 0.3rem;
+      }
+    }
+    .panel-bd{
+      margin-top: 0.5rem;
+      ul{
+        display: flex;
+        li{
+          flex: 1;
+          text-align: center;
+          padding: 0rem 0.1rem;
+          p{
+            font-size: 0.36rem;
+            &+p{
+              padding-top: 0.2rem;
+              font-size: 0.28rem;
+            }
+          }
+          &+li{
+            border-left: 1px solid rgba(255,255,255,0.5);
+          }
+        }
+      }
+    }
+  }
+  .list-panel{
+    .panel-hd{
+
+    }
+    .panel-bd{
+      margin-top: 0.2rem;
+    }
+    .entry-list{
+      font-size: 0.32rem;
+      color: #777;
+      background: #fff;
+      padding-left: 0.2rem;
+      .row{
+        display: flex;
+        height: 1rem;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        >div{
+          flex: 1;
+          padding: 0rem 0.1rem;
+        }
+        .index{
+          flex: 0.4;
+        }
+        .count{
+          flex: 0.6;
+        }
+      }
+      .list-hd{
+        border-bottom: 1px solid #e5e5e5;
+      }
+      .list-bd{
+        .row{
+          &+.row{
+            border-top: 1px solid #e5e5e5;
+          }
+        }
+      }
+    }
+  }
+}
