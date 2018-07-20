@@ -138,7 +138,8 @@ export default {
           if(!number||number==''){//如果openid为空，则重新进行默认授权
             if(Vue.cookie.get('authorizing')!='true'){
               Vue.cookie.set('authorizing','true',{ expires: '10s' });
-              this.toAuth(1,window.location.href);
+              //临时测试
+            /*  this.toAuth(1,window.location.href);*/
             }
           }
 
