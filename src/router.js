@@ -33,8 +33,15 @@ const routes=[ {
   component: resolve=>require(['./pages/Home'],resolve),
   meta:{
     title:'首页',
-  },
-}]
+  }
+},{
+  path: '/login',
+  name:'login',
+  component: resolve => require(['./pages/Login'], resolve),
+  meta:{
+    title:'登录',
+  }
+},]
 
 
 const router= new Router({

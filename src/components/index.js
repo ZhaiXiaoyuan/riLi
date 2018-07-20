@@ -9,10 +9,8 @@ import AlertModal from './AlertModal';
 import ConfirmModal from './ConfirmModal';
 import GenCode from './GenCode';
 import ScrollLoad from './ScrollLoad';
-import ShareGuide from './ShareGuide';
 import SignInModal from './SignInModal';
 import NavBar from './NavBar';
-import InviteModal from './InviteModal';
 
 /*全局组件注册配置*/
 export default {
@@ -25,18 +23,14 @@ export default {
     Vue.component('ConfirmModal',ConfirmModal);
     Vue.component('GenCode',GenCode);
     Vue.component('ScrollLoad',ScrollLoad);
-    Vue.component('ShareGuide',ShareGuide);
     Vue.component('SignInModal',SignInModal);
     Vue.component('NavBar',NavBar);
-    Vue.component('InviteModal',InviteModal);
 
     /*方法调度方式*/
     let OperationFeedbackConstructor = Vue.extend(OperationFeedback);
     let AlertModalConstructor=Vue.extend(AlertModal);
     let ConfrimModalConstructor=Vue.extend(ConfirmModal);
-    let ShareGuideConstructor=Vue.extend(ShareGuide);
     let SignInModalConstructor=Vue.extend(SignInModal);
-    let InviteModalConstructor=Vue.extend(InviteModal);
     const functionObject={
       /**
        * 操作提示
@@ -178,20 +172,6 @@ export default {
         parentEle.appendChild(instance.$el);
       },
       /**
-       * 分享引导
-       * @param options
-       */
-      shareGuide:function (options) {
-        options={...{},...options};
-        //
-        let parentEle=document.getElementById('app');
-        //
-        let instance=new ShareGuideConstructor({});
-        instance.options=options;
-        instance.$mount();
-        parentEle.appendChild(instance.$el);
-      },
-      /**
        * 签到弹窗
        * @param options
        */
@@ -203,23 +183,6 @@ export default {
         let parentEle=document.getElementById('app');
         //
         let instance=new SignInModalConstructor({});
-        instance.options=options;
-        instance.$mount();
-        parentEle.appendChild(instance.$el);
-      },
-      /**
-       * 邀请弹窗
-       * @param options
-       */
-      inviteModal:function (options) {
-        options={...{
-          ok:null,
-          cancel:null
-        },...options};
-        //
-        let parentEle=document.getElementById('app');
-        //
-        let instance=new InviteModalConstructor({});
         instance.options=options;
         instance.$mount();
         parentEle.appendChild(instance.$el);

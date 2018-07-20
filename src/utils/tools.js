@@ -135,18 +135,17 @@ export default {
         sessionInfo:function () {
           let timestamp=this.genTimestamp();
           let number=Vue.cookie.get('number');
-          if(!number||number==''){//如果openid为空，则重新进行默认授权
+         /* if(!number||number==''){//如果openid为空，则重新进行默认授权
             if(Vue.cookie.get('authorizing')!='true'){
               Vue.cookie.set('authorizing','true',{ expires: '10s' });
               //临时测试
-            /*  this.toAuth(1,window.location.href);*/
+            /!*  this.toAuth(1,window.location.href);*!/
             }
-          }
+          }*/
 
           return{
             timeStamp:timestamp,
             number:number,
-          /*  token:token,//不需要传*/
             signature:md5.hex('timestamp='+timestamp+'&number='+number+'&token='),
           }
         },
