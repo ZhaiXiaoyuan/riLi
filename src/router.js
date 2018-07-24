@@ -49,14 +49,14 @@ const routes=[ {
     title:'个人中心',
   }
 },{
-  path: '/question/:pageType?',
+  path: '/question/:pageType?/:pkId?',
   name:'question',
   component: resolve => require(['./pages/Question'], resolve),
   meta:{
     title:'答题',
   }
 },{
-  path: '/end',
+  path: '/end/:pageType?',
   name:'end',
   component: resolve => require(['./pages/End'], resolve),
   meta:{
@@ -66,6 +66,13 @@ const routes=[ {
   path: '/result',
   name:'result',
   component: resolve => require(['./pages/Result'], resolve),
+  meta:{
+    title:'答题结束',
+  }
+},{
+  path: '/rank',
+  name:'rank',
+  component: resolve => require(['./pages/Rank'], resolve),
   meta:{
     title:'答题结束',
   }

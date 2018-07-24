@@ -7,15 +7,15 @@
           <div class="user-info">
             <div class="item">
               <p>部门</p>
-              <p>人力资源</p>
+              <p>{{account.orgname}}</p>
             </div>
             <div class="item">
               <p>姓名</p>
-              <p>孔先生</p>
+              <p>{{account.username}}</p>
             </div>
             <div class="item">
               <p>工号</p>
-              <p>12345678</p>
+              <p>{{account.code}}</p>
             </div>
           </div>
           <div class="model-list">
@@ -23,7 +23,7 @@
               <i class="icon go-icon"></i>
               <div class="text"><p>初赛模式</p><p>剩余次数（4）</p></div>
             </div>
-            <div class="btn pk-btn">
+            <div class="btn pk-btn" @click="toPk()">
               <i class="icon pk-icon"></i>
               <div class="text"><p>对战模式</p><p>剩余次数（4）</p></div>
             </div>
@@ -152,7 +152,12 @@
         },
         data: function () {
             return {
-
+              account:{},
+              raceCount:5,
+              pkCount:5,
+              curDate:new Date(),
+              nexDate:new Date().setDate(new Date().getDate()+1),
+              questionList:[],
             }
         },
         computed: {},
@@ -160,13 +165,16 @@
         methods: {
           toPreliminary:function () {
             this.$router.push({name:'question',params:{pageType:'single'}});
+          },
+          toPk:function () {
+            this.$router.push({name:'question',params:{pageType:'pk'}});
           }
         },
 
         created: function () {
         },
         mounted: function () {
-
+          this.account=JSON.parse(Vue.cookie.get('account'));
         },
 
     };

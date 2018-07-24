@@ -3,12 +3,12 @@
     <div class="cm-full-page end">
       <i class="icon logo-icon"></i>
       <div class="content-panel">
-        <div class="panel-bd" v-if="pageType=='single'">
+        <div class="panel-bd" v-if="pageType=='single'&&scoreData">
           <p class="title">答题结束，本次答题获得积分</p>
           <div class="result">
-            <div class="score">150</div>
-            <p class="name">孔先生</p>
-            <p class="integral">累计总积分：652分</p>
+            <div class="score">{{scoreData.score}}</div>
+            <p class="name">{{scoreData.customer.username}}</p>
+            <p class="integral">累计总积分：{{scoreData.customer.winscores}}分</p>
           </div>
           <div class="btn-list">
             <div class="cm-btn cm-page-white-solid-btn">返回</div>
@@ -105,7 +105,8 @@
         },
         data: function () {
             return {
-              pageType:'pk',//页面类型，single:单独答题,pk:'对战'
+              pageType:'single',//页面类型，single:单独答题,pk:'对战',
+              scoreData:null,
             }
         },
         computed: {},
@@ -117,7 +118,11 @@
         created: function () {
         },
         mounted: function () {
-
+          this.pageType=this.$route.params.pageType;
+          if(this.pageType=='single'){
+            this.scoreData=JSON.parse(Vue.cookie.get('scoreData'));
+            console.log('this.scoreData:',this.scoreData);
+          }
         },
 
     };

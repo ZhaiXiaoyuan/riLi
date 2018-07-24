@@ -164,7 +164,7 @@
         width: 100%;
         height: 100%;
         border-radius: 0.2rem;
-        box-shadow: 0px 4px 10px rgba(117,4,13,0.19);
+        box-shadow: 0px 5px 15px rgba(117,4,13,0.19);
       }
       .icon{
         position: absolute;

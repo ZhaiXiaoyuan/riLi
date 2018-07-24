@@ -78,7 +78,7 @@
         data: function () {
             return {
               number:'',
-              username:''
+              username:'',
             }
         },
         computed: {},
@@ -103,6 +103,7 @@
             Vue.api.login(params).then((resp)=>{
               if(resp.status=='success'){
                 fb.setOptions({type:'complete',text:'登录成功'});
+                Vue.cookie.set('account',resp.message);
                 this.$router.push({name:'center',params:{}});
               }else{
                 fb.setOptions({type:'warn',text:resp.message});
@@ -114,7 +115,6 @@
         created: function () {
         },
         mounted: function () {
-
         },
 
     };

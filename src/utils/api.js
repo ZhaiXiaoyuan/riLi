@@ -59,6 +59,78 @@ export default {
           params: params
         });
       },
+      //初赛答题结果提交
+      submitAnswer:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'wx/simu/man/commit',
+          params: params
+        });
+      },
+      //获取对战五条题目-邀战人
+      getInviterQuestionList:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'wx/fight/man/getfivef',
+          params: params
+        });
+      },
+      //对战结果提交-邀战人
+      submitInviterAnswer:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'wx/fight/man/commitf',
+          params: params
+        });
+      },
+      //获取对战五条题目-应战人
+      getInvitedQuestionList:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'wx/fight/man/getfivea',
+          params: params
+        });
+      },
+      //对战结果提交-邀战人
+      submitInvitedAnswer:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'wx/fight/man/commita',
+          params: params
+        });
+      },
+      //初赛个人排行榜
+      getPersonalRank:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'wx/rank/info/simup',
+          params: params
+        });
+      },
+      //初赛集体排行榜
+      getTeamRank:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'wx/rank/info/simuo',
+          params: params
+        });
+      },
+      //对战个人胜场数排行榜
+      getPkRank:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'wx/rank/info/fightp',
+          params: params
+        });
+      },
+      //获取基础配置信息
+      getBasicConfig:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'wx/cus/info/cinfo',
+          params: params
+        });
+      },
     }
   },
 
