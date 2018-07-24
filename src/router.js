@@ -41,6 +41,34 @@ const routes=[ {
   meta:{
     title:'登录',
   }
+},{
+  path: '/center',
+  name:'center',
+  component: resolve => require(['./pages/Center'], resolve),
+  meta:{
+    title:'个人中心',
+  }
+},{
+  path: '/question/:pageType?',
+  name:'question',
+  component: resolve => require(['./pages/Question'], resolve),
+  meta:{
+    title:'答题',
+  }
+},{
+  path: '/end',
+  name:'end',
+  component: resolve => require(['./pages/End'], resolve),
+  meta:{
+    title:'答题结束',
+  }
+},{
+  path: '/result',
+  name:'result',
+  component: resolve => require(['./pages/Result'], resolve),
+  meta:{
+    title:'答题结束',
+  }
 },]
 
 

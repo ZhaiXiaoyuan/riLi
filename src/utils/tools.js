@@ -144,7 +144,7 @@ export default {
           }*/
 
           return{
-            timeStamp:timestamp,
+            timestamp:timestamp,
             number:number,
             signature:md5.hex('timestamp='+timestamp+'&number='+number+'&token='),
           }

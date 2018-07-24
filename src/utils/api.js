@@ -40,7 +40,7 @@ export default {
     }
 
     /**/
-    let basicUrl=false&&process.env.NODE_ENV=='development'?'/api':'http://192.168.0.138/rlwxs/';
+    let basicUrl=false&&process.env.NODE_ENV=='development'?'/api':'http://rlwxs.ngrok.xiaomiqiu.cn/rlwxs/';
    // let basicUrl=process.env.NODE_ENV=='development'?'/api':'http://www.mk-dingneng.com/dmjywxs';
     Vue.api={
       //登录
@@ -48,6 +48,14 @@ export default {
         return Vue.http.ajax({
           method: 'post',
           url: basicUrl+'wx/cus/info/login',
+          params: params
+        });
+      },
+      //获取五条模拟题目
+      getQuestionList:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'wx/simu/man/getfive',
           params: params
         });
       },

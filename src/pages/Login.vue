@@ -8,11 +8,11 @@
       <div class="form-panel">
         <div class="input-box">
           <div class="filed"><i class="icon account-icon"></i></div>
-          <input type="text">
+          <input type="text" v-model="username" placeholder="请输入账号">
         </div>
         <div class="input-box">
           <div class="filed"><i class="icon pwd-icon"></i></div>
-          <input type="password">
+          <input type="password" v-model="number" placeholder="请输入工号">
         </div>
       </div>
       <div class="btn-wrap">
@@ -30,6 +30,9 @@
   .login{
     text-align: center;
     padding-top: 1.2rem;
+    background: url("../images/common/excessive-page-bg.jpg") no-repeat;
+    width: 100%;
+    height: 100%;
   }
   .form-panel{
     margin-top: 0.8rem;
@@ -74,27 +77,33 @@
         },
         data: function () {
             return {
-              number:'P0022',
+              number:'',
+              username:''
             }
         },
         computed: {},
         watch: {},
         methods: {
           login:function () {
-          /*  if(this.name.length<2){
-              this.operationFeedback({type:'warn',text:'姓名不得少于2个字符'});
+            if(!this.username){
+              this.operationFeedback({type:'warn',text:'请输入账号'});
               return;
-            }*/
+            }
+            if(!this.number){
+              this.operationFeedback({type:'warn',text:'请输入工号'});
+              return;
+            }
             Vue.cookie.set('number',this.number);
             let params={
               ...Vue.tools.sessionInfo(),
-              username:'猫',
+              username:this.username,
               number:this.number,
             }
             let fb=this.operationFeedback({text:'登录中...'});
             Vue.api.login(params).then((resp)=>{
               if(resp.status=='success'){
                 fb.setOptions({type:'complete',text:'登录成功'});
+                this.$router.push({name:'center',params:{}});
               }else{
                 fb.setOptions({type:'warn',text:resp.message});
               }
