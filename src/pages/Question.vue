@@ -1,10 +1,14 @@
 <!--答题-->
 <template>
-    <div class="cm-full-page cm-page-bg question">
+    <div class="cm-full-page cm-page-bg question" :class="{'practice':pageType=='practice'}">
       <i class="icon logo-icon"></i>
       <div class="content-panel">
         <div class="panel-bd">
-          <div class="timer">{{this.expiretime-this.timeCounter}}</div>
+          <div class="timer" v-if="pageType!='practice'">{{this.expiretime-this.timeCounter}}</div>
+          <div class="type-info" v-if="pageType=='practice'">
+            <p class="title">当前题库：{{$route.params.practiceType}}</p>
+            <div class="link">上次答题序号：{{historyIndex+1<10?'0'+(historyIndex+1):historyIndex+1}}题<div class="link-box"><input type="number" v-model="indexKeyword" placeholder="序号" maxlength="5"><span @click="search()">Go</span></div></div>
+          </div>
           <div class="question-item">
             <div class="item-hd">
               {{curIndex<10?'0'+(curIndex+1):curIndex+1}}.{{curItem.content}}
@@ -30,6 +34,26 @@
           </div>
           <div class="cm-footer">
             <i class="icon footer-icon"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="wrong-modal" v-if="wrongModalFlag&&curItem.answer">
+        <div class="mask" @click="wrongModalFlag=false"></div>
+        <div class="modal-content">
+          <div class="modal-header">
+            <p class="title">回答错误</p>
+          </div>
+          <div class="modal-body">
+            <div class="index"><span>{{curItem.answer}}</span></div>
+            <div class="answer-text">正确答案：{{curItem['item'+curItem.answer.toLowerCase()]}}</div>
+            <div class="desc">
+              <span class="field">解析：</span>
+              <span class="value">{{curItem.ansexp}}</span>
+            </div>
+            <div class="btn-wrap">
+              <div class="cm-btn cm-page-btn" @click="nextPractice()">下一题</div>
+            </div>
           </div>
         </div>
       </div>
@@ -72,6 +96,57 @@
       font-size: 0.52rem;
       color: #fff;
     }
+    .type-info{
+      padding: 0.6rem;
+      border-bottom: 1px solid #e5e5e5;
+      text-align: center;
+      .title{
+        font-size: 0.36rem;
+        color: #4c4c4c;
+      }
+      .link{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 0.2rem;
+        font-size: 0.28rem;
+        color: #4c4c4c;
+        .link-box{
+          display: inline-block;
+          overflow: hidden;
+          input{
+            float: left;
+            display: inline-block;
+            font-size: 0.26rem;
+            border:1px solid #ef0719;
+            border-right: none;
+            height: 0.6rem;
+            width: 1.2rem;
+            line-height: 0.6rem;
+            padding: 0rem 0.2rem;
+            border-top-left-radius: 0.1rem;
+            border-bottom-left-radius: 0.1rem;
+            margin-left: 0.3rem;
+            outline: none;
+            color: 333;
+          }
+          span{
+            float: left;
+            display: inline-block;
+            font-size: 0.26rem;
+            color: #fff;
+            border:1px solid #ef0719;
+            background: #ef0719;
+            height: 0.6rem;
+            width: 0.8rem;
+            line-height: 0.6rem;
+            padding: 0rem 0.2rem;
+            border-top-right-radius: 0.1rem;
+            border-bottom-right-radius: 0.1rem;
+          }
+        }
+      }
+    }
     .question-item{
       position: relative;
       top:1.6rem;
@@ -81,14 +156,14 @@
         color: #4c4c4c;
       }
       .item-bd{
-        padding-top: 0.8rem;
+        padding-top: 0.6rem;
       }
     }
     .answer-item{
       display: flex;
       align-items: center;
       padding: 0rem 0.4rem;
-      background: url("../images/common/question-normal.png") no-repeat;
+   /*   background: url("../images/common/question-normal.png") no-repeat;*/
       /*width: 6.2rem;*/
       width: 100%;
       height: 0.90rem;
@@ -121,6 +196,85 @@
         box-shadow: none;
       }
     }
+    &.practice{
+      .question-item{
+        top:0.4rem;
+      }
+    }
+  }
+  .wrong-modal{
+    display: flex;
+    position: fixed;
+    z-index: 200;
+    width: 100%;
+    height: 100%;
+    top:0rem;
+    left: 0rem;
+    align-items: center;
+    justify-content: center;
+    .mask{
+      position: absolute;
+      z-index: 201;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      top:0rem;
+      left: 0rem;
+    }
+    .modal-content{
+      position: relative;
+      z-index: 202;
+      width: 90%;
+      margin: auto;
+      background: #fff;
+      border-radius: 0.1rem;
+      overflow: hidden;
+    }
+    .modal-header{
+      padding: 0.4rem;
+      background: #e60012;
+      .title{
+        color: #fff;
+        font-size: 0.36rem;
+        text-align: center;
+      }
+    }
+    .modal-body{
+      padding: 0.4rem 0.1rem 0.3rem 0.1rem;
+      text-align: center;
+      .index{
+        text-align: center;
+        >span{
+          display: inline-block;
+          width: 0.7rem;
+          height: 0.7rem;
+          text-align: center;
+          line-height: 0.7rem;
+          font-size: 0.48rem;
+          color: #e60012;
+          border: 1px solid #e60012;
+          border-radius: 50%;
+        }
+      }
+      .answer-text{
+        font-size: 0.3rem;
+        color: #333;
+        padding: 0.4rem 0rem;
+      }
+      .desc{
+        display: flex;
+        font-size: 0.28rem;
+        color: #666;
+        padding: 0rem 0.4rem 0.4rem 0.4rem;
+        .field{
+          flex: 1;
+        }
+        .value{
+          flex: 5;
+          text-align: left;
+        }
+      }
+    }
   }
 </style>
 
@@ -132,7 +286,8 @@
         },
         data: function () {
             return {
-              pateType:'',//页面类型，single:单独答题,pk:'对战',
+              account:{},
+              pageType:'',//页面类型，single:单独答题,pk:'对战',practice:'练习'
               index:0,
               curIndex:0,
               curItem:{},
@@ -144,6 +299,12 @@
 
               fightid:null,
               pkId:null,
+              timeCount:0,
+
+              indexKeyword:null,
+              wrongModalFlag:false,
+
+              historyIndex:0,
             }
         },
         computed: {},
@@ -193,6 +354,18 @@
               }
             });
           },
+          getPracticeQuestionList:function () {
+            Vue.api.getPracticeQuestionList({...Vue.tools.sessionInfo(),type:this.$route.params.practiceType}).then((resp)=>{
+              if(resp.status=='success'){
+                let data=JSON.parse(resp.message);
+                console.log('data:',data);
+                this.questionList=data;
+                this.readPracticeQuestion(this.index);
+              }else{
+
+              }
+            });
+          },
           readQuestion:function (index) {
             clearInterval(this.interval);
             if(index<this.questionList.length){
@@ -212,7 +385,7 @@
                 ...Vue.tools.sessionInfo(),
                 answers:answerArr.join(',')
               }
-              if(this.pageType=='personal'){
+              if(this.pageType=='single'){
                 params.simuinfoid=this.simuinfoid;
                 Vue.api.submitAnswer(params).then((resp)=>{
                   if(resp.status=='success'){
@@ -228,7 +401,18 @@
                 if(!this.pkId){
                   Vue.api.submitInviterAnswer(params).then((resp)=>{
                     if(resp.status=='success'){
-                     /* this.$router.push({name:'end',params:{pageType:'pk'}});*/
+                      let pkQuestion=[];
+                      if(localStorage.getItem('pkQuestion')){
+                        pkQuestion=JSON.parse(localStorage.getItem('pkQuestion'));
+                      }else{
+                        pkQuestion.push({
+                          accountCode:this.account.code,
+                          pkId:this.fightid,
+                          questionList:this.questionList
+                        });
+                      }
+                      localStorage.setItem('pkQuestion',JSON.stringify(pkQuestion));
+                      this.$router.push({name:'end',params:{pageType:'pk',pkId:this.fightid}});
                     }else{
 
                     }
@@ -236,7 +420,7 @@
                 }else{
                   Vue.api.submitInvitedAnswer(params).then((resp)=>{
                     if(resp.status=='success'){
-                      /* this.$router.push({name:'end',params:{pageType:'pk'}});*/
+                       this.$router.push({name:'result',params:{pkId:this.pkId}});
                     }else{
 
                     }
@@ -245,18 +429,61 @@
               }
             }
           },
+          readPracticeQuestion:function (index) {
+            this.index=index;
+            if(index<this.questionList.length){
+              this.curIndex=index;
+              this.curItem=this.questionList[index];
+              //
+              localStorage.setItem('practiceHistory_'+this.$route.params.practiceType,this.index);
+
+            }else{
+              this.alert({
+                title:'温馨提示',
+                html:'已做完该题库',
+                yes:'返回',
+                ok:()=>{
+                  this.$router.go(-1);
+                }
+              });
+            }
+          },
+          search:function () {
+            if(!regex.pInt.test(this.indexKeyword)){
+              this.operationFeedback({type:'warn',text:regex.pIntAlert});
+              return;
+            }
+            let index=this.indexKeyword-1;
+            if(index<this.questionList.length){
+              this.readPracticeQuestion(index);
+            }else{
+              this.operationFeedback({type:'warn',text:'输入的序号超出题库范围'});
+            }
+          },
           selectAnswer:function (index) {
             this.selectedAnswer=index;
             this.curItem.userAnswer=index;
-            if(this.selectedAnswer==this.curItem.answer){
-
+            if(this.pageType=='practice'){
+              if(this.selectedAnswer==this.curItem.answer){
+                setTimeout(()=>{
+                  this.index++;
+                  this.readQuestion(this.index);
+                },1000)
+              }else{
+                this.wrongModalFlag=true;
+              }
             }else{
-
+              setTimeout(()=>{
+                this.index++;
+                this.readQuestion(this.index);
+              },1000)
             }
-            setTimeout(()=>{
-              this.index++;
-              this.readQuestion(this.index);
-            },1000)
+          },
+          nextPractice:function () {
+            this.selectedAnswer=null;
+            let index=this.curIndex+1;
+            this.readPracticeQuestion(index);
+            this.wrongModalFlag=false;
           },
           initTimer:function () {
             this.interval=setInterval(()=>{
@@ -274,14 +501,22 @@
         created: function () {
         },
         mounted: function () {
+          this.account=Vue.cookie.get('account')?JSON.parse(Vue.cookie.get('account')):{};
           this.pageType=this.$route.params.pageType;
           this.pkId=this.$route.params.pkId;
           if(this.pageType=='single'){
             this.getQuestionList();
           }else if(this.pageType=='pk'&&!this.pkId){
             this.getInviterQuestionList();
-          }else{
+          }else if(this.pageType=='pk'&&this.pkId){
             this.getInvitedQuestionList();
+          }else if(this.pageType=='practice'){
+            this.getPracticeQuestionList();
+            this.historyIndex=localStorage.getItem('practiceHistory_'+this.$route.params.practiceType,this.index);
+            if(this.historyIndex!=''){
+              console.log('test:',this.historyIndex);
+              this.historyIndex=parseInt(this.historyIndex);
+            }
           }
         },
 

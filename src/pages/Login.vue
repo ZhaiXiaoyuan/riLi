@@ -33,38 +33,41 @@
     background: url("../images/common/excessive-page-bg.jpg") no-repeat;
     width: 100%;
     height: 100%;
-  }
-  .form-panel{
-    margin-top: 0.8rem;
-  }
-  .input-box{
-    display: flex;
-    align-items: center;
-    text-align: left;
-    background: url("../images/common/input-box-bg.png") no-repeat;
-    width: 6.06rem;
-    height: 1.04rem;
-    background-size: 100% 100%;
-    margin: 0rem auto;
-    .filed{
+    .form-panel{
+      margin-top: 0.8rem;
+    }
+    .input-box{
       display: flex;
       align-items: center;
-      justify-content: center;
-      width: 1.24rem;
-      margin-left: 0.12rem;
+      text-align: left;
+      background: url("../images/common/input-box-bg.png") no-repeat;
+      width: 6.06rem;
+      height: 1.04rem;
+      background-size: 100% 100%;
+      margin: 0rem auto;
+      .filed{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.24rem;
+        margin-left: 0.12rem;
+      }
+      input{
+        width: 4.3rem;
+        height: 0.8rem;
+        border: none;
+        outline: none;
+        background: none;
+        font-size: 0.32rem;
+        padding: 0rem 0.2rem;
+        -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+      }
+      &.input-box{
+        margin-top: 0.4rem;
+      }
     }
-    input{
-      width: 4.3rem;
-      height: 0.8rem;
-      border: none;
-      outline: none;
-      background: none;
-      font-size: 0.32rem;
-      padding: 0rem 0.2rem;
-      -webkit-box-shadow: 0 0 0px 1000px white inset !important;
-    }
-    &.input-box{
-      margin-top: 0.4rem;
+    .btn-wrap{
+      margin-top: 0.6rem;
     }
   }
 </style>
@@ -104,7 +107,14 @@
               if(resp.status=='success'){
                 fb.setOptions({type:'complete',text:'登录成功'});
                 Vue.cookie.set('account',resp.message);
-                this.$router.push({name:'center',params:{}});
+
+                let toPkId=sessionStorage.getItem('toPkId');
+                if(toPkId&&toPkId!='undefined'){
+                  sessionStorage.setItem('toPkId','');
+                  this.$router.push({name:'question',params:{pageType:'pk',pkId:toPkId}});
+                }else{
+                  this.$router.push({name:'center',params:{}});
+                }
               }else{
                 fb.setOptions({type:'warn',text:resp.message});
               }

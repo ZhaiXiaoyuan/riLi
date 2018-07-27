@@ -3,37 +3,42 @@
     <div class="cm-full-page cm-page-bg center">
       <i class="icon logo-icon"></i>
       <div class="content-panel">
-        <div class="panel-bd">
-          <div class="user-info">
-            <div class="item">
-              <p>部门</p>
-              <p>{{account.orgname}}</p>
-            </div>
-            <div class="item">
-              <p>姓名</p>
-              <p>{{account.username}}</p>
-            </div>
-            <div class="item">
-              <p>工号</p>
-              <p>{{account.code}}</p>
+        <div class="panel-hd">
+          <div class="hd-content">
+            <div class="user-info">
+              <div class="item">
+                <p>部门</p>
+                <p>{{account.orgname}}</p>
+              </div>
+              <div class="item">
+                <p>姓名</p>
+                <p>{{account.username}}</p>
+              </div>
+              <div class="item">
+                <p>工号</p>
+                <p>{{account.code}}</p>
+              </div>
             </div>
           </div>
+          <div class="gap"></div>
+        </div>
+        <div class="panel-bd">
           <div class="model-list">
-            <div class="btn go-btn" @click="toPreliminary()">
+            <div class="btn go-btn" @click="toPreliminary()" :class="{'cm-disabled':!raceCount}">
               <i class="icon go-icon"></i>
-              <div class="text"><p>初赛模式</p><p>剩余次数（4）</p></div>
+              <div class="text"><p>初赛模式</p><p>剩余次数（{{raceCount}}）</p></div>
             </div>
-            <div class="btn pk-btn" @click="toPk()">
+            <div class="btn pk-btn" @click="toPk()"  :class="{'cm-disabled':!pkCount}">
               <i class="icon pk-icon"></i>
-              <div class="text"><p>对战模式</p><p>剩余次数（4）</p></div>
+              <div class="text"><p>对战模式</p><p>剩余次数（{{pkCount}}）</p></div>
             </div>
           </div>
           <div class="btn-list">
-            <div class="cm-btn cm-page-btn">排行榜</div>
-            <div class="cm-btn cm-page-white-btn">练习</div>
-            <div class="cm-btn cm-page-white-btn">规则</div>
+            <div class="cm-btn cm-page-btn" @click="$router.push({name:'rank',params:{}})">排行榜</div>
+            <div class="cm-btn cm-page-white-btn"  @click="$router.push({name:'practice',params:{}})">练习</div>
+            <div class="cm-btn cm-page-white-btn"  @click="$router.push({name:'rule',params:{}})">规则</div>
           </div>
-          <div class="cm-footer">
+          <div class="footer-wrap">
             <i class="icon footer-icon"></i>
           </div>
         </div>
@@ -46,33 +51,47 @@
 <style lang="less" rel="stylesheet/less">
   .center{
     text-align: center;
-    background: url("../images/common/common-page-bg.jpg") no-repeat;
-    width: 100%;
-    height: 100%;
-    background-size: 100% auto;
+    padding: 2rem 0rem 0.28rem 0rem;
     .content-panel{
-      position: absolute;
-      left: 0rem;
-      bottom: 0rem;
       width: 100%;
-      height: 85%;
-      background: url("../images/common/center-panel-bg.png") no-repeat;
-      background-size: 100% 100%;
+      padding: 0rem 0.28rem;
+      .panel-hd{
+        position: relative;
+        z-index: 10;
+        .hd-content{
+          display: flex;
+          align-items: center;
+          background: #fff;
+          min-height: 1.5rem;
+          border-top-left-radius: 0.2rem;
+          border-top-right-radius: 0.2rem;
+        }
+        .gap{
+          background: url("../images/common/panel-gap.png") no-repeat;
+          width: 100%;
+          height: 0.21rem;
+          background-size: 100% 100%;
+        }
+      }
       .panel-bd{
         position: relative;
-        padding: 0rem 0.28rem;
+        padding: 0.4rem 0.28rem;
+        background: #fff;
+        border-bottom-left-radius: 0.2rem;
+        border-bottom-right-radius: 0.2rem;
+        box-shadow: 0px 10px 50px rgba(117,4,13,0.1);
       }
     }
     .user-info{
-      margin-top: 0.84rem;
       display: flex;
+      width: 100%;
       .item{
         flex: 1;
         p{
           font-size: 0.32rem;
           color: #e60012;
           &+p{
-            padding-top: 0.2rem;
+            padding-top: 0.1rem;
             font-size: 0.28rem;
             color: #666;
           }
@@ -83,10 +102,8 @@
       }
     }
     .model-list{
-      margin-top: 0.88rem;
       display: flex;
       justify-content: space-between;
-      padding: 0rem 0.28rem;
       .btn{
         display: flex;
         align-items: center;
@@ -132,14 +149,16 @@
       }
     }
     .btn-list{
-      margin-top: 0.44rem;
-      padding: 0rem 0.24rem;
+      margin-top: 0.4rem;
       .cm-btn{
         width: 100%;
         &+.cm-btn{
-          margin-top: 0.3rem;
+          margin-top: 0.24rem;
         }
       }
+    }
+    .footer-wrap{
+      margin-top: 0.3rem;
     }
   }
 </style>
@@ -163,18 +182,15 @@
         computed: {},
         watch: {},
         methods: {
-          toPreliminary:function () {
-            this.$router.push({name:'question',params:{pageType:'single'}});
-          },
-          toPk:function () {
-            this.$router.push({name:'question',params:{pageType:'pk'}});
-          }
         },
 
         created: function () {
         },
         mounted: function () {
-          this.account=JSON.parse(Vue.cookie.get('account'));
+          this.account=Vue.cookie.get('account')?JSON.parse(Vue.cookie.get('account')):{};
+          //
+          this.raceCount=this.checkRaceCount({});
+          this.pkCount=this.checkPkCount({});
         },
 
     };

@@ -11,6 +11,8 @@ import GenCode from './GenCode';
 import ScrollLoad from './ScrollLoad';
 import SignInModal from './SignInModal';
 import NavBar from './NavBar';
+import ShareGuide from './ShareGuide';
+
 
 /*全局组件注册配置*/
 export default {
@@ -25,12 +27,14 @@ export default {
     Vue.component('ScrollLoad',ScrollLoad);
     Vue.component('SignInModal',SignInModal);
     Vue.component('NavBar',NavBar);
+    Vue.component('ShareGuide',ShareGuide);
 
     /*方法调度方式*/
     let OperationFeedbackConstructor = Vue.extend(OperationFeedback);
     let AlertModalConstructor=Vue.extend(AlertModal);
     let ConfrimModalConstructor=Vue.extend(ConfirmModal);
     let SignInModalConstructor=Vue.extend(SignInModal);
+    let ShareGuideConstructor=Vue.extend(ShareGuide);
     const functionObject={
       /**
        * 操作提示
@@ -183,6 +187,20 @@ export default {
         let parentEle=document.getElementById('app');
         //
         let instance=new SignInModalConstructor({});
+        instance.options=options;
+        instance.$mount();
+        parentEle.appendChild(instance.$el);
+      },
+      /**
+       * 分享引导
+       * @param options
+       */
+      shareGuide:function (options) {
+        options={...{},...options};
+        //
+        let parentEle=document.getElementById('app');
+        //
+        let instance=new ShareGuideConstructor({});
         instance.options=options;
         instance.$mount();
         parentEle.appendChild(instance.$el);

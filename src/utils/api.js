@@ -40,7 +40,7 @@ export default {
     }
 
     /**/
-    let basicUrl=false&&process.env.NODE_ENV=='development'?'/api':'http://rlwxs.ngrok.xiaomiqiu.cn/rlwxs/';
+    let basicUrl=process.env.NODE_ENV=='development'?'/api/':'http://rlwxs.ngrok.xiaomiqiu.cn/rlwxs/';
    // let basicUrl=process.env.NODE_ENV=='development'?'/api':'http://www.mk-dingneng.com/dmjywxs';
     Vue.api={
       //登录
@@ -128,6 +128,22 @@ export default {
         return Vue.http.ajax({
           method: 'post',
           url: basicUrl+'wx/cus/info/cinfo',
+          params: params
+        });
+      },
+      //对战结果获取
+      getPkResult:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'wx/fight/man/result',
+          params: params
+        });
+      },
+      //根据类型获取该类型所有题目
+      getPracticeQuestionList:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'wx/exam/man/getall',
           params: params
         });
       },

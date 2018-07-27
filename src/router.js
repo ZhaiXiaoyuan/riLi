@@ -49,21 +49,21 @@ const routes=[ {
     title:'个人中心',
   }
 },{
-  path: '/question/:pageType?/:pkId?',
+  path: '/question/:pageType?/:pkId?/:practiceType?',
   name:'question',
   component: resolve => require(['./pages/Question'], resolve),
   meta:{
     title:'答题',
   }
 },{
-  path: '/end/:pageType?',
+  path: '/end/:pageType?/:pkId?',
   name:'end',
   component: resolve => require(['./pages/End'], resolve),
   meta:{
     title:'答题结束',
   }
 },{
-  path: '/result',
+  path: '/result/:pkId',
   name:'result',
   component: resolve => require(['./pages/Result'], resolve),
   meta:{
@@ -75,6 +75,27 @@ const routes=[ {
   component: resolve => require(['./pages/Rank'], resolve),
   meta:{
     title:'答题结束',
+  }
+},{
+  path: '/answer/:pkId?',
+  name:'answer',
+  component: resolve => require(['./pages/Answer'], resolve),
+  meta:{
+    title:'答案',
+  }
+},{
+  path: '/practice',
+  name:'practice',
+  component: resolve => require(['./pages/Practice'], resolve),
+  meta:{
+    title:'练习',
+  }
+},{
+  path: '/rule',
+  name:'rule',
+  component: resolve => require(['./pages/Rule'], resolve),
+  meta:{
+    title:'规则',
   }
 },]
 
@@ -88,13 +109,13 @@ const router= new Router({
 })
 
 //注册全局导航守卫
-/*router.beforeEach((to, from,next) => {
+router.beforeEach((to, from,next) => {
   let url=window.location.href;
- /!* if(url.indexOf('?')==-1&&url.indexOf('&1=')>-1){
+ /* if(url.indexOf('?')==-1&&url.indexOf('&1=')>-1){
     window.location.replace(window.location.href.replace('&1=',''));
-  }*!/
+  }*/
  //当从微信跳转回前端时会在地址上拼接额外的参数，导致了地址格式错乱，故对此进行替换处理
-/!*  let linkAnalysis=url.match(/\/\?from(\S*)#\//);
+/*  let linkAnalysis=url.match(/\/\?from(\S*)#\//);
   let wrongUrlData=linkAnalysis?linkAnalysis[0]:null;
   if(wrongUrlData&&wrongUrlData!=''){
     window.location.replace(url.replace(wrongUrlData,'/#/'))
@@ -104,9 +125,9 @@ const router= new Router({
   }
   if(to.query.openid){
     Vue.cookie.set('number',to.query.openid,{ expires: '12h' });
-  }*!/
+  }*/
 
- /!* let userInfo=sessionStorage.getItem('userInfo')?JSON.parse(sessionStorage.getItem('userInfo')):null;
+ /* let userInfo=sessionStorage.getItem('userInfo')?JSON.parse(sessionStorage.getItem('userInfo')):null;
   if(!userInfo){
     Vue.api.getUserInfo({...Vue.sessionInfo()}).then((resp)=>{
       if(resp.status=='success'){
@@ -125,9 +146,9 @@ const router= new Router({
     }else{
       router.push({name:'forbidden'});
     }
-  }*!/
+  }*/
 
-/!*  Vue.api.getUserInfo({...Vue.sessionInfo()}).then((resp)=>{
+/*  Vue.api.getUserInfo({...Vue.sessionInfo()}).then((resp)=>{
     if(resp.status=='success'){
       let userInfo=JSON.parse(resp.message);
       sessionStorage.setItem('userInfo',JSON.stringify(userInfo));
@@ -140,9 +161,12 @@ const router= new Router({
     }else{
 
     }
-  })*!/
-
-})*/
+  })*/
+  if(window.location.href.indexOf('login')==-1){
+    Vue.tools.sessionInfo();
+  }
+  next();
+})
 router.afterEach((to, from) => {
   //修改页面title
   document.title = to.meta.title;

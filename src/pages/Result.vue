@@ -1,44 +1,63 @@
 <!--pk结果-->
 <template>
     <div class="cm-full-page cm-page-bg result win">
-      <div class="score-panel">
-        <div class="part left-part win">
-          <div class="part-bd">
-            <div class="num">86<em>分</em></div>
-            <i class="icon left-win-icon"></i>
-            <span class="name">卡卡西</span>
+      <div class="score-panel" v-if="resultData.fightinfo">
+        <div class="panel-bd">
+          <div class="part left-part" :class="{'win':resultData.fightinfo.fighterscore>resultData.fightinfo.accepterscore}">
+            <div class="part-bd">
+              <div class="num">{{resultData.fightinfo.fighterscore}}<em>分</em></div>
+              <i class="icon left-win-icon"></i>
+              <span class="name">{{resultData.fightinfo.fightername}}</span>
+            </div>
           </div>
-        </div>
-        <p class="text" v-if="true">挑战成功</p>
-        <p class="text" v-if="false">挑战失败</p>
-        <p class="text" v-if="false">挑战平局</p>
-        <div class="part right-part">
-          <div class="part-bd">
-            <div class="num">86<em>分</em></div>
-            <i class="icon right-win-icon"></i>
-            <span class="name">傻大木</span>
+          <div class="part right-part"  :class="{'win':resultData.fightinfo.fighterscore<resultData.fightinfo.accepterscore}">
+            <div class="part-bd">
+              <div class="num">{{resultData.fightinfo.accepterscore}}<em>分</em></div>
+              <i class="icon right-win-icon"></i>
+              <span class="name">{{resultData.fightinfo.acceptername}}</span>
+            </div>
           </div>
         </div>
       </div>
       <div class="content-panel">
         <div class="panel-bd">
-          <i class="icon win-icon" v-if="true"></i>
-          <i class="icon lose-icon" v-if="false"></i>
-          <i class="icon draw-icon" v-if="false"></i>
-          <div class="data-block">
-            <p class="win-count">胜场数目：<em>+1</em></p>
-            <p class="name">卡卡西</p>
-            <p class="total">挑战累计总胜利场数：78场</p>
+          <div class="status" v-if="userType=='fight'&&resultData.fightinfo">
+            <i class="icon win-icon" v-if="resultData.fightinfo.fighterscore>resultData.fightinfo.accepterscore"></i>
+            <i class="icon lose-icon" v-if="resultData.fightinfo.fighterscore<resultData.fightinfo.accepterscore"></i>
+            <i class="icon draw-icon" v-if="resultData.fightinfo.fighterscore==resultData.fightinfo.accepterscore"></i>
           </div>
+          <div class="status" v-if="userType=='accept'&&resultData.fightinfo">
+            <i class="icon win-icon" v-if="resultData.fightinfo.fighterscore<resultData.fightinfo.accepterscore"></i>
+            <i class="icon lose-icon" v-if="resultData.fightinfo.fighterscore>resultData.fightinfo.accepterscore"></i>
+            <i class="icon draw-icon" v-if="resultData.fightinfo.fighterscore==resultData.fightinfo.accepterscore"></i>
+          </div>
+
+          <div class="data-block"  v-if="userType=='fight'&&resultData.fightinfo">
+            <p class="win-count">
+              <span>胜场数：</span><i class="icon"></i><span class="num">{{resultData.fightinfo.fighterscore>resultData.fightinfo.accepterscore?1:0}}</span>
+            </p>
+            <p class="name">{{account.username}}</p>
+            <p class="total">挑战累计总胜利场数：{{resultData.fwincounts}}场</p>
+          </div>
+
+          <div class="data-block"  v-if="userType=='accept'&&resultData.fightinfo">
+            <p class="win-count">
+              胜场数：<i class="icon"></i><span class="num">{{resultData.fightinfo.accepterscore>resultData.fightinfo.fighterscore?1:0}}</span>
+            </p>
+            <p class="name">{{account.username}}</p>
+            <p class="total">挑战累计总胜利场数：{{resultData.awincounts}}场</p>
+          </div>
+
           <div class="btn-list">
-            <div class="cm-btn cm-page-btn">再来一局</div>
-            <div class="cm-btn cm-page-white-btn">查看答案</div>
-            <div class="cm-btn cm-page-white-btn">返回</div>
+            <div class="cm-btn cm-page-btn" @click="toPk()">再来一局</div>
+            <div class="cm-btn cm-page-white-btn"  @click="$router.push({name:'answer',params:{pkId:pkId}})">查看答案</div>
+            <div class="cm-btn cm-page-white-btn" @click="$router.push({name:'center',params:{}})">返回</div>
+          </div>
+
+          <div class="footer-wrap">
+            <i class="icon footer-icon"></i>
           </div>
         </div>
-      </div>
-      <div class="cm-footer">
-        <i class="icon footer-icon"></i>
       </div>
     </div>
 </template>
@@ -48,13 +67,17 @@
 <style lang="less" rel="stylesheet/less">
   .result{
     text-align: center;
-    overflow: hidden;
+    padding-top: 0.4rem;
+    padding-bottom: 0.8rem;
     .score-panel{
-      position: relative;
-      z-index: 100;
-      top:0.6rem;
-      width: 100%;
-      height: 1.4rem;
+      overflow: hidden;
+      padding: 0.32rem 0rem 0.6rem 0rem;
+      .panel-bd{
+        position: relative;
+        z-index: 100;
+        width: 100%;
+        height: 1.4rem;
+      }
       .part{
         position: absolute;
         z-index: 100;
@@ -137,26 +160,11 @@
           left: -0.24rem;
         }
       }
-      .text{
-        position: absolute;
-        width: 100%;
-        font-size: 0.48rem;
-        color: #fff;
-        text-align: center;
-        height: 0.88rem;
-        line-height: 0.88rem;
-        top:0rem;
-        bottom: 0rem;
-        margin: auto;
-      }
     }
     .content-panel{
-      position: fixed;
-      left: 0rem;
-      bottom: 0.28rem;
+      margin-top: 0.24rem;
       padding: 0rem 0.28rem;
       width: 100%;
-      height: 76%;
       color: #fff;
       .panel-bd{
         position: relative;
@@ -165,16 +173,19 @@
         height: 100%;
         border-radius: 0.2rem;
         box-shadow: 0px 5px 15px rgba(117,4,13,0.19);
+        padding-bottom: 0.4rem;
       }
-      .icon{
-        position: absolute;
-        top:-1rem;
-        left: 0rem;
-        right: 0rem;
-        margin: auto;
-        display: inline-block;
-        width: 1.7rem;
-        height: 1.9rem;
+      .status{
+        .icon{
+          position: absolute;
+          top:-1.7rem;
+          left: 0rem;
+          right: 0rem;
+          margin: auto;
+          display: inline-block;
+          width: 3.4rem;
+          height: 2.7rem;
+        }
       }
       .win-icon{
         display: inline-block;
@@ -193,20 +204,28 @@
       }
       .data-block{
         text-align: center;
-        padding-top: 1.2rem;
+        padding-top: 1.1rem;
         color: #666;
         .win-count{
           display: flex;
           align-items: center;
           justify-content: center;
           font-size: 0.36rem;
-          em{
+          line-height: normal;
+          .icon{
+            display: inline-block;
+            background: url("../images/common/add-icon.png") no-repeat;
+            width: 0.42rem;
+            height: 0.42rem;
+            background-size: 100% 100%;
+          }
+          .num{
             font-size: 0.8rem;
             color: #e60012;
           }
         }
         .name{
-          padding-top: 0.2rem;
+          padding-top: 0.02rem;
           font-size: 0.28rem;
         }
         .total{
@@ -214,15 +233,18 @@
           font-size: 0.28rem;
         }
       }
+      .footer-wrap{
+        margin-top: 0.6rem;
+      }
 
     }
     .btn-list{
-      margin-top: 0.6rem;
+      margin-top: 0.4rem;
       padding: 0rem 0.24rem;
       .cm-btn{
         width: 100%;
         &+.cm-btn{
-          margin-top: 0.3rem;
+          margin-top: 0.2rem;
         }
       }
     }
@@ -237,19 +259,46 @@
         },
         data: function () {
             return {
-              pageType:'pk',//页面类型，single:单独答题,pk:'对战'
+              account:{},
+              pkId:null,
+              resultData:{},
+              userType:null,//用户类型,fight:'邀战者',accept:'应战者'
             }
         },
         computed: {},
         watch: {},
         methods: {
+          getPkResult:function () {
+            let params={
+              ...Vue.tools.sessionInfo(),
+              fightinfoid:this.pkId,
+            }
+            Vue.api.getPkResult(params).then((resp)=>{
+              if(resp.status=='success'){
+                let data=JSON.parse(resp.message);
+                this.resultData=data;
+                if(this.account.username==this.resultData.fightinfo.acceptername){
+                  this.userType='accept';
+                }else{
+                  this.userType='fight';
+                }
+              }else{
 
+              }
+            });
+          },
+          toPk:function () {
+            this.$router.push({name:'question',params:{pageType:'pk'}});
+          }
         },
 
         created: function () {
         },
         mounted: function () {
-
+          this.account=Vue.cookie.get('account')?JSON.parse(Vue.cookie.get('account')):{};
+          this.pkId=this.$route.params.pkId;
+          //
+          this.getPkResult();
         },
 
     };

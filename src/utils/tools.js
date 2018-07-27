@@ -135,13 +135,13 @@ export default {
         sessionInfo:function () {
           let timestamp=this.genTimestamp();
           let number=Vue.cookie.get('number');
-         /* if(!number||number==''){//如果openid为空，则重新进行默认授权
-            if(Vue.cookie.get('authorizing')!='true'){
-              Vue.cookie.set('authorizing','true',{ expires: '10s' });
-              //临时测试
-            /!*  this.toAuth(1,window.location.href);*!/
+          if(!number||number==''){//如果openid为空，则重新进行默认授权
+            if(window.location.hash.indexOf('/end/pk/')>-1){
+              sessionStorage.setItem('toPkId',window.location.hash.split('/pk/')[1]);
             }
-          }*/
+        /*    router.push({name:'login',params:{}});*/
+           window.location.href=window.location.origin+'/#/login';
+          }
 
           return{
             timestamp:timestamp,
@@ -285,6 +285,81 @@ export default {
             })
           }
         },
+        genDeadline:function () {
+          return new Date(this.formatDate(new Date(),'yyyy/MM/dd')+' 23:59:59').getTime()
+        },
+        checkRaceCount:function (options) {
+          let deadline=localStorage.getItem('deadline');
+          let raceCount=5;
+          if(deadline){
+            raceCount=parseInt(localStorage.getItem('raceCount'));
+          }else{
+            localStorage.setItem('deadline',Vue.tools.genDeadline());
+            localStorage.setItem('raceCount',5);
+          }
+
+          let curTime=new Date().getTime();
+          if(curTime<deadline){
+            if(raceCount){
+              /* raceCount--;
+               localStorage.setItem('raceCount',raceCount);*/
+              options.ok&&options.ok(raceCount);
+            }else{
+
+            }
+          }else{
+            localStorage.setItem('deadline',Vue.tools.genDeadline());
+            localStorage.setItem('raceCount',5);
+          }
+          return raceCount;
+        },
+        toPreliminary:function () {
+          this.checkRaceCount({
+            ok:(data)=>{
+              this.raceCount=data;
+              this.raceCount--;
+              localStorage.setItem('raceCount',this.raceCount);
+              this.$router.push({name:'question',params:{pageType:'single'}});
+            }
+          });
+        },
+
+        checkPkCount:function (options) {
+          let pkDeadline=localStorage.getItem('pkDeadline');
+          let pkCount=5;
+          if(pkDeadline){
+            pkCount=parseInt(localStorage.getItem('pkCount'));
+          }else{
+            localStorage.setItem('pkDeadline',Vue.tools.genDeadline());
+            localStorage.setItem('pkCount',5);
+          }
+
+          let curTime=new Date().getTime();
+          if(curTime<pkDeadline){
+            if(pkCount){
+              /* raceCount--;
+               localStorage.setItem('raceCount',raceCount);*/
+              options.ok&&options.ok(pkCount);
+            }else{
+
+            }
+          }else{
+            localStorage.setItem('pkDeadline',Vue.tools.genDeadline());
+            localStorage.setItem('pkCount',5);
+          }
+          return pkCount;
+        },
+        toPk:function () {
+          this.checkPkCount({
+            ok:(data)=>{
+              this.pkCount=data;
+              this.pkCount--;
+              localStorage.setItem('pkCount',this.pkCount);
+              this.$router.push({name:'question',params:{pageType:'pk'}});
+            }
+          });
+        }
+
       }
 
       Object.assign(Vue, Vue.tools);
