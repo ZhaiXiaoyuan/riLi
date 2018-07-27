@@ -7,7 +7,7 @@
           <div class="timer" v-if="pageType!='practice'">{{this.expiretime-this.timeCounter}}</div>
           <div class="type-info" v-if="pageType=='practice'">
             <p class="title">当前题库：{{$route.params.practiceType}}</p>
-            <div class="link">上次答题序号：{{historyIndex+1<10?'0'+(historyIndex+1):historyIndex+1}}题<div class="link-box"><input type="number" v-model="indexKeyword" placeholder="序号" maxlength="5"><span @click="search()">Go</span></div></div>
+            <div class="link">上次答题序号：<span v-if="(historyIndex+1)">{{historyIndex+1<10?'0'+(historyIndex+1):historyIndex+1}}题</span><div class="link-box"><input type="number" v-model="indexKeyword" placeholder="序号" maxlength="5"><span @click="search()">Go</span></div></div>
           </div>
           <div class="question-item">
             <div class="item-hd">
@@ -69,7 +69,7 @@
       left: 0rem;
       bottom: 0.28rem;
       width: 100%;
-      height: 78%;
+      height: 80%;
       padding: 0rem 0.28rem;
       .panel-bd{
         position: relative;
@@ -97,7 +97,7 @@
       color: #fff;
     }
     .type-info{
-      padding: 0.6rem;
+      padding: 0.4rem;
       border-bottom: 1px solid #e5e5e5;
       text-align: center;
       .title{
@@ -128,7 +128,7 @@
             border-bottom-left-radius: 0.1rem;
             margin-left: 0.3rem;
             outline: none;
-            color: 333;
+            color: #333;
           }
           span{
             float: left;
@@ -143,6 +143,7 @@
             padding: 0rem 0.2rem;
             border-top-right-radius: 0.1rem;
             border-bottom-right-radius: 0.1rem;
+            margin-left: -0.08rem;
           }
         }
       }
@@ -156,7 +157,7 @@
         color: #4c4c4c;
       }
       .item-bd{
-        padding-top: 0.6rem;
+        padding-top: 0.4rem;
       }
     }
     .answer-item{
@@ -198,7 +199,7 @@
     }
     &.practice{
       .question-item{
-        top:0.4rem;
+        top:0.3rem;
       }
     }
   }
