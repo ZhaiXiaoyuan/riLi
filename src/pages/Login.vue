@@ -8,7 +8,7 @@
       <div class="form-panel">
         <div class="input-box">
           <div class="filed"><i class="icon account-icon"></i></div>
-          <input type="text" v-model="username" placeholder="请输入账号">
+          <input type="text" v-model="username" placeholder="请输入姓名">
         </div>
         <div class="input-box">
           <div class="filed"><i class="icon pwd-icon"></i></div>
@@ -89,7 +89,7 @@
         methods: {
           login:function () {
             if(!this.username){
-              this.operationFeedback({type:'warn',text:'请输入账号'});
+              this.operationFeedback({type:'warn',text:'请输入姓名'});
               return;
             }
             if(!this.number){
@@ -125,6 +125,7 @@
         created: function () {
         },
         mounted: function () {
+
         },
 
     };

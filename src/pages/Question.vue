@@ -14,19 +14,19 @@
               {{curIndex<10?'0'+(curIndex+1):curIndex+1}}.{{curItem.content}}
             </div>
             <div class="item-bd">
-              <div class="answer-item" @click="selectAnswer('A')" :class="{'right':selectedAnswer=='A'&&curItem.answer=='A','wrong':selectedAnswer=='A'&&curItem.answer!='A'}">
+              <div class="answer-item" @click="selectAnswer('A')" :class="{'right':(selectedAnswer=='A'||showAnswer)&&curItem.answer=='A','wrong':selectedAnswer=='A'&&curItem.answer!='A'}">
                 <span class="index">A.</span>
                 <span class="text">{{curItem.itema}}</span>
               </div>
-              <div class="answer-item" @click="selectAnswer('B')"  :class="{'right':selectedAnswer=='B'&&curItem.answer=='B','wrong':selectedAnswer=='B'&&curItem.answer!='B'}">
+              <div class="answer-item" @click="selectAnswer('B')"  :class="{'right':(selectedAnswer=='B'||showAnswer)&&curItem.answer=='B','wrong':selectedAnswer=='B'&&curItem.answer!='B'}">
                 <span class="index">B.</span>
                 <span class="text">{{curItem.itemb}}</span>
               </div>
-              <div class="answer-item" @click="selectAnswer('C')"  :class="{'right':selectedAnswer=='C'&&curItem.answer=='C','wrong':selectedAnswer=='C'&&curItem.answer!='C'}">
+              <div class="answer-item" @click="selectAnswer('C')"  :class="{'right':(selectedAnswer=='C'||showAnswer)&&curItem.answer=='C','wrong':selectedAnswer=='C'&&curItem.answer!='C'}">
                 <span class="index">C.</span>
                 <span class="text">{{curItem.itemc}}</span>
               </div>
-              <div class="answer-item" @click="selectAnswer('D')"  :class="{'right':selectedAnswer=='D'&&curItem.answer=='D','wrong':selectedAnswer=='D'&&curItem.answer!='D'}">
+              <div class="answer-item" @click="selectAnswer('D')"  :class="{'right':(selectedAnswer=='D'||showAnswer)&&curItem.answer=='D','wrong':selectedAnswer=='D'&&curItem.answer!='D'}">
                 <span class="index">D.</span>
                 <span class="text">{{curItem.itemd}}</span>
               </div>
@@ -297,7 +297,7 @@
               timeCounter:0,
               selectedAnswer:null,
               interval:null,
-
+              showAnswer:false,
               fightid:null,
               pkId:null,
               timeCount:0,
@@ -371,6 +371,7 @@
             clearInterval(this.interval);
             if(index<this.questionList.length){
               this.selectedAnswer=null;
+              this.showAnswer=false;
               this.timeCounter=0;
               this.curIndex=index;
               this.curItem=this.questionList[index];
@@ -474,6 +475,9 @@
                 this.wrongModalFlag=true;
               }
             }else{
+              if(this.pageType=='single'){
+                this.showAnswer=true;
+              }
               setTimeout(()=>{
                 this.index++;
                 this.readQuestion(this.index);
@@ -491,7 +495,14 @@
               if(this.expiretime-this.timeCounter==0){
                 clearInterval(this.interval);
                 this.index++;
-                this.readQuestion(this.index);
+                if(this.pageType=='single'){
+                  this.showAnswer=true;
+                  setTimeout(()=>{
+                    this.readQuestion(this.index);
+                  },2000);
+                }else{
+                  this.readQuestion(this.index);
+                }
               }else{
                 this.timeCounter++;
               }
@@ -515,7 +526,6 @@
             this.getPracticeQuestionList();
             this.historyIndex=localStorage.getItem('practiceHistory_'+this.$route.params.practiceType,this.index);
             if(this.historyIndex!=''){
-              console.log('test:',this.historyIndex);
               this.historyIndex=parseInt(this.historyIndex);
             }
           }

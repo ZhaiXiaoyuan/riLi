@@ -137,9 +137,6 @@
               }
             });
           },
-          toPk:function () {
-            this.$router.push({name:'question',params:{pageType:'pk'}});
-          }
         },
 
         created: function () {

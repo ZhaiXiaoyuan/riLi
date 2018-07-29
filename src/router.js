@@ -109,60 +109,9 @@ const router= new Router({
 })
 
 //注册全局导航守卫
-router.beforeEach((to, from,next) => {
+router.beforeEach((to,from,next) => {
   let url=window.location.href;
- /* if(url.indexOf('?')==-1&&url.indexOf('&1=')>-1){
-    window.location.replace(window.location.href.replace('&1=',''));
-  }*/
- //当从微信跳转回前端时会在地址上拼接额外的参数，导致了地址格式错乱，故对此进行替换处理
-/*  let linkAnalysis=url.match(/\/\?from(\S*)#\//);
-  let wrongUrlData=linkAnalysis?linkAnalysis[0]:null;
-  if(wrongUrlData&&wrongUrlData!=''){
-    window.location.replace(url.replace(wrongUrlData,'/#/'))
-  }
-  if(to.query.sopenid){
-    localStorage.setItem('sopenid',to.query.sopenid);
-  }
-  if(to.query.openid){
-    Vue.cookie.set('number',to.query.openid,{ expires: '12h' });
-  }*/
-
- /* let userInfo=sessionStorage.getItem('userInfo')?JSON.parse(sessionStorage.getItem('userInfo')):null;
-  if(!userInfo){
-    Vue.api.getUserInfo({...Vue.sessionInfo()}).then((resp)=>{
-      if(resp.status=='success'){
-        let userInfo=JSON.parse(resp.message);
-        sessionStorage.setItem('userInfo',JSON.stringify(userInfo));
-        if(userInfo.status==20){
-          next();
-        }else{
-          router.push({name:'forbidden'});
-        }
-      }
-    })
-  }else {
-    if(userInfo.status==20){
-      next();
-    }else{
-      router.push({name:'forbidden'});
-    }
-  }*/
-
-/*  Vue.api.getUserInfo({...Vue.sessionInfo()}).then((resp)=>{
-    if(resp.status=='success'){
-      let userInfo=JSON.parse(resp.message);
-      sessionStorage.setItem('userInfo',JSON.stringify(userInfo));
-      if(userInfo.status==20){
-        MtaH5.pgv();
-        next();
-      }else{
-        router.push({name:'forbidden'});
-      }
-    }else{
-
-    }
-  })*/
-  if(window.location.href.indexOf('login')==-1){
+  if(to.name!='login'){
     Vue.tools.sessionInfo();
   }
   next();

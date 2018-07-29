@@ -135,12 +135,11 @@ export default {
         sessionInfo:function () {
           let timestamp=this.genTimestamp();
           let number=Vue.cookie.get('number');
-          if(!number||number==''){//如果openid为空，则重新进行默认授权
+          if(!number||number==''){
             if(window.location.hash.indexOf('/end/pk/')>-1){
               sessionStorage.setItem('toPkId',window.location.hash.split('/pk/')[1]);
             }
-        /*    router.push({name:'login',params:{}});*/
-           window.location.href=window.location.origin+'/#/login';
+            router.push({name:'login',params:{}});
           }
 
           return{
@@ -301,11 +300,9 @@ export default {
           let curTime=new Date().getTime();
           if(curTime<deadline){
             if(raceCount){
-              /* raceCount--;
-               localStorage.setItem('raceCount',raceCount);*/
               options.ok&&options.ok(raceCount);
             }else{
-
+              options.fail&&options.fail();
             }
           }else{
             localStorage.setItem('deadline',Vue.tools.genDeadline());
@@ -320,6 +317,9 @@ export default {
               this.raceCount--;
               localStorage.setItem('raceCount',this.raceCount);
               this.$router.push({name:'question',params:{pageType:'single'}});
+            },
+            fail:()=>{
+              this.operationFeedback({type:'warn',text:'您今天剩余的初赛答题次数为0次'});
             }
           });
         },
@@ -336,12 +336,11 @@ export default {
 
           let curTime=new Date().getTime();
           if(curTime<pkDeadline){
+            console.log('pkCount:',pkCount);
             if(pkCount){
-              /* raceCount--;
-               localStorage.setItem('raceCount',raceCount);*/
               options.ok&&options.ok(pkCount);
             }else{
-
+              options.fail&&options.fail(pkCount);
             }
           }else{
             localStorage.setItem('pkDeadline',Vue.tools.genDeadline());
@@ -356,6 +355,9 @@ export default {
               this.pkCount--;
               localStorage.setItem('pkCount',this.pkCount);
               this.$router.push({name:'question',params:{pageType:'pk'}});
+            },
+            fail:()=>{
+              this.operationFeedback({type:'warn',text:'您今天剩余的对战答题次数为0次'});
             }
           });
         }
