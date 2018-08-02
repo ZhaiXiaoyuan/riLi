@@ -31,7 +31,7 @@
             <div class="btn pk-btn" @click="toPk()"  :class="{'cm-disabled':!pkCount}">
               <i class="icon pk-icon"></i>
               <div class="text"><p>对战模式</p><p>剩余次数（{{pkCount}}）</p></div>
-              <div class="record-btn"><span>对战记录</span></div>
+              <div class="record-btn" @click="toRecord($event)"><span>对战记录</span></div>
             </div>
           </div>
           <div class="btn-list">
@@ -193,6 +193,10 @@
         computed: {},
         watch: {},
         methods: {
+          toRecord:function ($event) {
+            $event.stopPropagation();
+            this.$router.push({name:'record',params:{}});
+          }
         },
 
         created: function () {

@@ -25,7 +25,7 @@
           </div>
         </div>
       </div>
-      <div class="cm-footer">
+      <div class="footer-wrap">
         <i class="icon footer-icon"></i>
       </div>
     </div>
@@ -36,7 +36,7 @@
 <style lang="less" rel="stylesheet/less">
   .end{
     text-align: center;
-    padding-top: 1.2rem;
+    padding-top: 1rem;
     background: url("../images/pages/end-bg.jpg") no-repeat;
     width: 100%;
     height: 100%;
@@ -45,18 +45,18 @@
       margin-top: 0.6rem;
       padding: 0rem 0.28rem;
       width: 100%;
-      height: 70%;
+      min-height: 70%;
       color: #fff;
       .panel-bd{
         position: relative;
         background: #e60012;
+        padding-bottom: 0.6rem;
         width: 100%;
-        height: 100%;
         border-radius: 0.2rem;
         box-shadow: 0px 5px 25px rgba(230,0,18,0.4);
       }
       .title{
-        padding-top: 0.7rem;
+        padding-top: 0.6rem;
         font-size: 0.36rem;
       }
       .score{
@@ -85,7 +85,7 @@
       }
     }
     .btn-list{
-      margin-top: 0.6rem;
+      margin-top: 0.4rem;
       padding: 0rem 0.24rem;
       .cm-btn{
         width: 100%;
@@ -93,6 +93,10 @@
           margin-top: 0.3rem;
         }
       }
+    }
+    .footer-wrap{
+      padding: 0.4rem 0rem;
+      text-align: center;
     }
   }
 </style>
@@ -144,10 +148,14 @@
         created: function () {
         },
         mounted: function () {
+          //
+          if(!this.$route.query.refreshFlag&&this.pageType=='pk'&&this.pkId){
+            window.location.replace(window.location.href+'?refreshFlag=true');
+          }
+          //
           this.pageType=this.$route.params.pageType;
           this.pkId=this.$route.params.pkId;
           //
-          console.log('test:',window.location);
           //
           this.sessionInfo();
           //
@@ -165,10 +173,14 @@
             },3000)
           }
         },
+      beforeRouteEnter (to, from, next) {
+        /*window.location.href=to.fullPath+'?random='+Math.random();*/
+        next();
+      },
        beforeRouteLeave (to, from, next) {
          clearInterval(this.interval);
          next();
-       }
+       },
 
     };
 </script>

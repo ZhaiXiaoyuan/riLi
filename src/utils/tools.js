@@ -139,8 +139,8 @@ export default {
           let timestamp=this.genTimestamp();
           let number=Vue.cookie.get('number');
           if(!number||number==''){
-            if(window.location.hash.indexOf('/end/pk/')>-1){
-              sessionStorage.setItem('toPkId',window.location.hash.split('/pk/')[1]);
+            if(window.location.href.indexOf('/end/pk/')>-1){
+              sessionStorage.setItem('toPkId',window.location.href.split('/pk/')[1]);
             }
             router.push({name:'login',params:{}});
           }
