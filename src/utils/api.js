@@ -40,7 +40,7 @@ export default {
     }
 
     /**/
-    let basicUrl=false&&process.env.NODE_ENV=='development'?'/api/':'http://www.elecplus.tech:8000/rlwxs/';
+    let basicUrl=process.env.NODE_ENV=='development'?'/api/':'http://dev1.elecplus.net/rlwxs/';
    // let basicUrl=process.env.NODE_ENV=='development'?'/api':'http://www.mk-dingneng.com/dmjywxs';
     Vue.api={
       //登录

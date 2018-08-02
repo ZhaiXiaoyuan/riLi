@@ -111,12 +111,14 @@
         },
         mounted: function () {
           this.account=Vue.cookie.get('account')?JSON.parse(Vue.cookie.get('account')):{};
+          console.log('test:',this.account);
           this.pkId=this.$route.params.pkId;
           let pkQuestion=JSON.parse(localStorage.getItem('pkQuestion'));
-          this.questionList=pkQuestion.find((item)=>{
+          console.log('pkQuestion:',pkQuestion);
+          let temList=pkQuestion.find((item)=>{
             return item.accountCode==this.account.code&&item.pkId==this.pkId;
-          }).questionList;
-          console.log('this.questionList:',this.questionList);
+          });
+          this.questionList=temList.questionList;
         },
 
     };

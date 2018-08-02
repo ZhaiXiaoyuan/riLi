@@ -31,6 +31,7 @@
             <div class="btn pk-btn" @click="toPk()"  :class="{'cm-disabled':!pkCount}">
               <i class="icon pk-icon"></i>
               <div class="text"><p>对战模式</p><p>剩余次数（{{pkCount}}）</p></div>
+              <div class="record-btn"><span>对战记录</span></div>
             </div>
           </div>
           <div class="btn-list">
@@ -144,12 +145,21 @@
         background-size: 100% 100%;
       }
       .pk-btn{
+        position: relative;
         background: url("../images/common/pk-btn.png") no-repeat;
         background-size: 100% 100%;
+        .record-btn{
+          position: absolute;
+          right: 0rem;
+          bottom: -0.44rem;
+          font-size: 0.28rem;
+          color: #f3c50b;
+          text-decoration: underline;
+        }
       }
     }
     .btn-list{
-      margin-top: 0.4rem;
+      margin-top: 0.7rem;
       .cm-btn{
         width: 100%;
         &+.cm-btn{

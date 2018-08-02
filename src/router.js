@@ -60,7 +60,7 @@ const routes=[ {
   name:'end',
   component: resolve => require(['./pages/End'], resolve),
   meta:{
-    title:'答题结束',
+    title:'对战',
   }
 },{
   path: '/result/:pkId',
@@ -74,7 +74,7 @@ const routes=[ {
   name:'rank',
   component: resolve => require(['./pages/Rank'], resolve),
   meta:{
-    title:'答题结束',
+    title:'排行榜',
   }
 },{
   path: '/answer/:pkId?',
@@ -102,7 +102,7 @@ const routes=[ {
 
 const router= new Router({
   routes:routes,
-/*  mode: 'history',*/
+  mode: 'history',
   /* scrollBehavior: function (to, from, savedPosition) {
    return savedPosition || { x: 0, y: 0 }
    }*/
@@ -111,7 +111,7 @@ const router= new Router({
 //注册全局导航守卫
 router.beforeEach((to,from,next) => {
   let url=window.location.href;
-  if(to.name!='login'){
+  if(to.name!='login'&&to.name!='home'){
     Vue.tools.sessionInfo();
   }
   next();

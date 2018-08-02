@@ -1,6 +1,6 @@
 <!--答题-->
 <template>
-    <div class="cm-full-page cm-page-bg question" :class="{'practice':pageType=='practice'}">
+    <div class="cm-full-page cm-page-bg question" :class="{'practice-type':pageType=='practice','pk':pageType=='pk'}">
       <i class="icon logo-icon"></i>
       <div class="content-panel">
         <div class="panel-bd">
@@ -17,22 +17,30 @@
               <div class="answer-item" @click="selectAnswer('A')" :class="{'right':(selectedAnswer=='A'||showAnswer)&&curItem.answer=='A','wrong':selectedAnswer=='A'&&curItem.answer!='A'}">
                 <span class="index">A.</span>
                 <span class="text">{{curItem.itema}}</span>
+                <i class="icon wrong-icon"></i>
+                <i class="icon right-icon"></i>
               </div>
               <div class="answer-item" @click="selectAnswer('B')"  :class="{'right':(selectedAnswer=='B'||showAnswer)&&curItem.answer=='B','wrong':selectedAnswer=='B'&&curItem.answer!='B'}">
                 <span class="index">B.</span>
                 <span class="text">{{curItem.itemb}}</span>
+                <i class="icon wrong-icon"></i>
+                <i class="icon right-icon"></i>
               </div>
               <div class="answer-item" @click="selectAnswer('C')"  :class="{'right':(selectedAnswer=='C'||showAnswer)&&curItem.answer=='C','wrong':selectedAnswer=='C'&&curItem.answer!='C'}">
                 <span class="index">C.</span>
                 <span class="text">{{curItem.itemc}}</span>
+                <i class="icon wrong-icon"></i>
+                <i class="icon right-icon"></i>
               </div>
               <div class="answer-item" @click="selectAnswer('D')"  :class="{'right':(selectedAnswer=='D'||showAnswer)&&curItem.answer=='D','wrong':selectedAnswer=='D'&&curItem.answer!='D'}">
                 <span class="index">D.</span>
                 <span class="text">{{curItem.itemd}}</span>
+                <i class="icon wrong-icon"></i>
+                <i class="icon right-icon"></i>
               </div>
             </div>
           </div>
-          <div class="cm-footer">
+          <div class="footer-wrap">
             <i class="icon footer-icon"></i>
           </div>
         </div>
@@ -64,12 +72,14 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" rel="stylesheet/less">
   .question{
+    padding-top: 2.4rem;
+    padding-bottom: 0.2rem;
     .content-panel{
-      position: fixed;
+     /* position: fixed;
       left: 0rem;
-      bottom: 0.28rem;
+      bottom: 0.28rem;*/
       width: 100%;
-      height: 80%;
+     /* height: 80%;*/
       padding: 0rem 0.28rem;
       .panel-bd{
         position: relative;
@@ -150,24 +160,25 @@
     }
     .question-item{
       position: relative;
-      top:1.6rem;
-      padding: 0rem 0.44rem;
+      padding: 1.2rem 0.44rem 0rem 0.44rem;
+      min-height: 80%;
+      overflow: auto;
       .item-hd{
         font-size: 0.36rem;
         color: #4c4c4c;
       }
       .item-bd{
-        padding-top: 0.4rem;
+        padding: 0.3rem 0rem;
+      /*  height: 6.2rem;
+        overflow: auto;*/
       }
     }
     .answer-item{
       display: flex;
       align-items: center;
-      padding: 0rem 0.4rem;
-   /*   background: url("../images/common/question-normal.png") no-repeat;*/
-      /*width: 6.2rem;*/
+      padding: 0.16rem 0.4rem;
       width: 100%;
-      height: 0.90rem;
+      min-height: 0.90rem;
       background-size: 100% 100%;
       font-size: 0.32rem;
       color: #4c4c4c;
@@ -180,26 +191,78 @@
       &+.answer-item{
         margin-top: 0.3rem;
       }
-      &.right{
-        background: url("../images/common/question-right.png") no-repeat;
+      .text{
+        width: 4.4rem;
+        word-break: break-all;
+        font-size: 0.3rem;
+      }
+      .icon{
+        position: relative;
+        left: 0.2rem;
+        display: none;
+        margin-left: auto;
+      }
+      .wrong-icon{
+        background: url("../images/common/wrong-icon.png") no-repeat;
+        width: 0.6rem;
+        height: 0.6rem;
         background-size: 100% 100%;
+      }
+      .right-icon{
+        background: url("../images/common/right-icon.png") no-repeat;
+        width: 0.6rem;
+        height: 0.6rem;
+        background-size: 100% 100%;
+      }
+      &.right{
         color: #25cb4b;
-        border: none;
-        border-top: 1px solid rgba(37,203,75,0.18);
-        box-shadow: none;
+        border: 1px solid rgba(37,203,75,0.18);
+        box-shadow: 0px 2px 5px rgba(37,203,75,0.3);
+        .right-icon{
+          display: inline-block;
+        }
       }
       &.wrong{
-        background: url("../images/common/question-wrong.png") no-repeat;
-        background-size: 100% 100%;
         color: #e60012;
-        border: none;
-        border-top: 1px solid rgba(230,0,18,0.18);
-        box-shadow: none;
+        border: 1px solid  rgba(230,0,18,0.3);
+        box-shadow: 0px 2px 5px  rgba(230,0,18,0.3);
+        .wrong-icon{
+          display: inline-block;
+        }
+      }
+      &:active{
+        transform: scale(0.98);
       }
     }
-    &.practice{
+    .footer-wrap{
+      padding: 0.2rem 0rem;
+      width: 100%;
+      text-align: center;
+    }
+    &.practice-type{
+      padding-top: 2rem;
       .question-item{
-        top:0.3rem;
+        padding-top: 0.3rem;
+      }
+    }
+    &.pk{
+      .answer-item{
+        &.right{
+          color: #4c4c4c;
+          box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
+          border: 1px solid #e5e5e5;
+          .right-icon{
+            display: none;
+          }
+        }
+        &.wrong{
+          color: #4c4c4c;
+          box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
+          border: 1px solid #e5e5e5;
+          .wrong-icon{
+            display: none;
+          }
+        }
       }
     }
   }
@@ -359,8 +422,9 @@
             Vue.api.getPracticeQuestionList({...Vue.tools.sessionInfo(),type:this.$route.params.practiceType}).then((resp)=>{
               if(resp.status=='success'){
                 let data=JSON.parse(resp.message);
-                console.log('data:',data);
                 this.questionList=data;
+             /*   this.questionList=data.splice(0,3);*/
+                console.log('this.questionList:',this.questionList);
                 this.readPracticeQuestion(this.index);
               }else{
 
@@ -400,40 +464,36 @@
                 });
               }else if(this.pageType=='pk'){
                 params.fightinfoid=this.fightid;
-                if(!this.pkId){
-                  Vue.api.submitInviterAnswer(params).then((resp)=>{
-                    if(resp.status=='success'){
-                      let pkQuestion=[];
-                      if(localStorage.getItem('pkQuestion')){
-                        pkQuestion=JSON.parse(localStorage.getItem('pkQuestion'));
-                      }else{
-                        pkQuestion.push({
-                          accountCode:this.account.code,
-                          pkId:this.fightid,
-                          questionList:this.questionList
-                        });
-                      }
-                      localStorage.setItem('pkQuestion',JSON.stringify(pkQuestion));
+                Vue.api.submitInviterAnswer(params).then((resp)=>{
+                  if(resp.status=='success'){
+                    let pkQuestion=[];
+                    if(localStorage.getItem('pkQuestion')){
+                      pkQuestion=JSON.parse(localStorage.getItem('pkQuestion'));
+                    }
+                    pkQuestion.push({
+                      accountCode:this.account.code,
+                      pkId:this.fightid,
+                      questionList:this.questionList
+                    });
+                    localStorage.setItem('pkQuestion',JSON.stringify(pkQuestion));
+                    if(!this.pkId){
                       this.$router.push({name:'end',params:{pageType:'pk',pkId:this.fightid}});
                     }else{
-
+                      this.$router.push({name:'result',params:{pkId:this.pkId}});
                     }
-                  });
-                }else{
-                  Vue.api.submitInvitedAnswer(params).then((resp)=>{
-                    if(resp.status=='success'){
-                       this.$router.push({name:'result',params:{pkId:this.pkId}});
-                    }else{
+                  }else{
 
-                    }
-                  });
-                }
+                  }
+                });
               }
             }
           },
           readPracticeQuestion:function (index) {
             this.index=index;
             if(index<this.questionList.length){
+              this.selectedAnswer=null;
+              this.showAnswer=false;
+              this.timeCounter=0;
               this.curIndex=index;
               this.curItem=this.questionList[index];
               //
@@ -469,7 +529,7 @@
               if(this.selectedAnswer==this.curItem.answer){
                 setTimeout(()=>{
                   this.index++;
-                  this.readQuestion(this.index);
+                  this.readPracticeQuestion(this.index);
                 },1000)
               }else{
                 this.wrongModalFlag=true;

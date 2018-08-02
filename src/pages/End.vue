@@ -127,9 +127,11 @@
                 console.log('data:',data);
                 if(data.pkStatus=='10'){
                   if(data.who!='当前是邀战人'&&data.mess=='暂未有应战人接受对战'){
-                    this.$router.push({name:'question',params:{pageType:'pk',pkId:pkId}});
+                    clearInterval(this.interval);
+                    this.$router.push({name:'question',params:{pageType:'pk',pkId:this.pkId}});
                   }
                 }else if(data.pkStatus=='20'){
+                  clearInterval(this.interval);
                   this.$router.push({name:'result',params:{pkId:this.pkId}});
                 }
               }else{
@@ -144,6 +146,8 @@
         mounted: function () {
           this.pageType=this.$route.params.pageType;
           this.pkId=this.$route.params.pkId;
+          //
+          console.log('test:',window.location);
           //
           this.sessionInfo();
           //

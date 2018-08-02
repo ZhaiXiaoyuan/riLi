@@ -235,66 +235,21 @@ export default {
             alert(res.errMsg);
           });
         },
-        /**/
-        checkUserInfo:function (callback,isDirectly) {
-          let userInfo=sessionStorage.getItem('userInfo')?JSON.parse(sessionStorage.getItem('userInfo')):null;
-          let link=()=>{
-            if(userInfo.touxiang){
-              router.push({name:'completeData'});
-            }else{
-              this.toAuth(2,window.location.href.split('#')[0]+'#/completeData');
-            }
-          }
-          let toCompleteData=()=>{
-            if(isDirectly){
-              link();
-            }else{
-              Vue.alert({
-                html:'您未完善信息，请完善信息！',
-                yes:'立即跳转',
-                autoTime:3,
-                autoText:'跳转至完善信息界面',
-                ok:()=>{
-                  link();
-                }
-              });
-            }
-          }
-          if(userInfo){
-            if(userInfo.mobilephone){
-              callback&&callback();
-            }else{
-              toCompleteData();
-            }
-          }else{
-            Vue.api.getUserInfo({...this.sessionInfo()}).then((resp)=>{
-              if(resp.status=='success'){
-                userInfo=JSON.parse(resp.message);
-                if(userInfo){
-                  if(userInfo.mobilephone){
-                    callback&&callback();
-                  }else{
-                    toCompleteData();
-                  }
-                }
-                sessionStorage.setItem('userInfo',JSON.stringify(userInfo));
-              }else{
-
-              }
-            })
-          }
-        },
         genDeadline:function () {
           return new Date(this.formatDate(new Date(),'yyyy/MM/dd')+' 23:59:59').getTime()
         },
         checkRaceCount:function (options) {
-          let deadline=localStorage.getItem('deadline');
+          let account=Vue.cookie.get('account')?JSON.parse(Vue.cookie.get('account')):{};
+          let countFieldName=account.code+'_raceCount';
+          let deadlineFieldName=account.code+'_deadline';
+
+          let deadline=localStorage.getItem(deadlineFieldName);
           let raceCount=5;
           if(deadline){
-            raceCount=parseInt(localStorage.getItem('raceCount'));
+            raceCount=parseInt(localStorage.getItem(countFieldName));
           }else{
-            localStorage.setItem('deadline',Vue.tools.genDeadline());
-            localStorage.setItem('raceCount',5);
+            localStorage.setItem(deadlineFieldName,Vue.tools.genDeadline());
+            localStorage.setItem(countFieldName,5);
           }
 
           let curTime=new Date().getTime();
@@ -305,17 +260,20 @@ export default {
               options.fail&&options.fail();
             }
           }else{
-            localStorage.setItem('deadline',Vue.tools.genDeadline());
-            localStorage.setItem('raceCount',5);
+            localStorage.setItem(deadlineFieldName,Vue.tools.genDeadline());
+            localStorage.setItem(countFieldName,5);
           }
           return raceCount;
         },
         toPreliminary:function () {
+          let account=Vue.cookie.get('account')?JSON.parse(Vue.cookie.get('account')):{};
+          let countFieldName=account.code+'_raceCount';
+
           this.checkRaceCount({
             ok:(data)=>{
               this.raceCount=data;
               this.raceCount--;
-              localStorage.setItem('raceCount',this.raceCount);
+              localStorage.setItem(countFieldName,this.raceCount);
               this.$router.push({name:'question',params:{pageType:'single'}});
             },
             fail:()=>{
@@ -325,13 +283,17 @@ export default {
         },
 
         checkPkCount:function (options) {
-          let pkDeadline=localStorage.getItem('pkDeadline');
+          let account=Vue.cookie.get('account')?JSON.parse(Vue.cookie.get('account')):{};
+          let countFieldName=account.code+'_pkCount';
+          let deadlineFieldName=account.code+'_pkDeadline';
+
+          let pkDeadline=localStorage.getItem(deadlineFieldName);
           let pkCount=5;
           if(pkDeadline){
-            pkCount=parseInt(localStorage.getItem('pkCount'));
+            pkCount=parseInt(localStorage.getItem(countFieldName));
           }else{
-            localStorage.setItem('pkDeadline',Vue.tools.genDeadline());
-            localStorage.setItem('pkCount',5);
+            localStorage.setItem(deadlineFieldName,Vue.tools.genDeadline());
+            localStorage.setItem(countFieldName,5);
           }
 
           let curTime=new Date().getTime();
@@ -343,17 +305,20 @@ export default {
               options.fail&&options.fail(pkCount);
             }
           }else{
-            localStorage.setItem('pkDeadline',Vue.tools.genDeadline());
-            localStorage.setItem('pkCount',5);
+            localStorage.setItem(deadlineFieldName,Vue.tools.genDeadline());
+            localStorage.setItem(countFieldName,5);
           }
           return pkCount;
         },
         toPk:function () {
+          let account=Vue.cookie.get('account')?JSON.parse(Vue.cookie.get('account')):{};
+          let countFieldName=account.code+'_pkCount';
+
           this.checkPkCount({
             ok:(data)=>{
               this.pkCount=data;
               this.pkCount--;
-              localStorage.setItem('pkCount',this.pkCount);
+              localStorage.setItem(countFieldName,this.pkCount);
               this.$router.push({name:'question',params:{pageType:'pk'}});
             },
             fail:()=>{

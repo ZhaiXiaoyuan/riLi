@@ -1,6 +1,6 @@
 <!--登录-->
 <template>
-    <div class="cm-full-page login">
+    <div class="login">
       <i class="icon logo-icon"></i>
       <div style="margin-top: 0.4rem">
         <i class="icon app-title-icon"></i>
@@ -27,12 +27,18 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" rel="stylesheet/less">
-  .login{
-    text-align: center;
-    padding-top: 1.2rem;
-    background: url("../images/common/excessive-page-bg.jpg") no-repeat;
+  #app{
     width: 100%;
     height: 100%;
+  }
+  .login{
+    position: relative;
+    text-align: center;
+    padding-top: 1.2rem;
+    padding-bottom: 1.4rem;
+    background: url("../images/common/excessive-page-bg.jpg") no-repeat;
+    width: 100%;
+    min-height: 100%;
     .form-panel{
       margin-top: 0.8rem;
     }
