@@ -182,6 +182,7 @@
         data: function () {
             return {
               account:{},
+              maxCount:100,
               raceCount:5,
               pkCount:5,
               curDate:new Date(),
@@ -198,9 +199,12 @@
         },
         mounted: function () {
           this.account=Vue.cookie.get('account')?JSON.parse(Vue.cookie.get('account')):{};
-          //
-          this.raceCount=this.checkRaceCount({});
-          this.pkCount=this.checkPkCount({});
+          this.checkCount({
+            callback:(data)=>{
+              this.raceCount=basicConfig.maxCount-data.stime;
+              this.pkCount=basicConfig.maxCount-data.ftime;
+            }
+          });
         },
 
     };

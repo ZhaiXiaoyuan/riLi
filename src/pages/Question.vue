@@ -47,7 +47,7 @@
       </div>
 
       <div class="wrong-modal" v-if="wrongModalFlag&&curItem.answer">
-        <div class="mask" @click="wrongModalFlag=false"></div>
+        <div class="mask"></div>
         <div class="modal-content">
           <div class="modal-header">
             <p class="title">回答错误</p>
@@ -55,7 +55,7 @@
           <div class="modal-body">
             <div class="index"><span>{{curItem.answer}}</span></div>
             <div class="answer-text">正确答案：{{curItem['item'+curItem.answer.toLowerCase()]}}</div>
-            <div class="desc">
+            <div class="desc" v-if="curItem.ansexp">
               <span class="field">解析：</span>
               <span class="value">{{curItem.ansexp}}</span>
             </div>

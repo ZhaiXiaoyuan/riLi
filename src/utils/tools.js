@@ -44,6 +44,9 @@ export default {
           shortCodeAlert:'域名格式有误，请输入7到20位字母或数字，不可为纯数字！'
         }
         //
+        window.basicConfig={
+          maxCount:100,
+        }
       Vue.tools = {
         /*生成请求时间戳*/
         genTimestamp:function () {
@@ -238,91 +241,42 @@ export default {
         genDeadline:function () {
           return new Date(this.formatDate(new Date(),'yyyy/MM/dd')+' 23:59:59').getTime()
         },
-        checkRaceCount:function (options) {
-          let account=Vue.cookie.get('account')?JSON.parse(Vue.cookie.get('account')):{};
-          let countFieldName=account.code+'_raceCount';
-          let deadlineFieldName=account.code+'_deadline';
+        checkCount:function (options) {
 
-          let deadline=localStorage.getItem(deadlineFieldName);
-          let raceCount=5;
-          if(deadline){
-            raceCount=parseInt(localStorage.getItem(countFieldName));
-          }else{
-            localStorage.setItem(deadlineFieldName,Vue.tools.genDeadline());
-            localStorage.setItem(countFieldName,5);
-          }
-
-          let curTime=new Date().getTime();
-          if(curTime<deadline){
-            if(raceCount){
-              options.ok&&options.ok(raceCount);
+          var params={
+            ...this.sessionInfo(),
+          };
+          Vue.api.getTime(params).then((resp)=>{
+            if(resp.status=='success'){
+              var data=JSON.parse(resp.message);
+              options.callback&&options.callback(data);
             }else{
-              options.fail&&options.fail();
+
             }
-          }else{
-            localStorage.setItem(deadlineFieldName,Vue.tools.genDeadline());
-            localStorage.setItem(countFieldName,5);
-          }
-          return raceCount;
+          });
         },
         toPreliminary:function () {
-          let account=Vue.cookie.get('account')?JSON.parse(Vue.cookie.get('account')):{};
-          let countFieldName=account.code+'_raceCount';
-
-          this.checkRaceCount({
-            ok:(data)=>{
-              this.raceCount=data;
-              this.raceCount--;
-              localStorage.setItem(countFieldName,this.raceCount);
-              this.$router.push({name:'question',params:{pageType:'single'}});
-            },
-            fail:()=>{
-              this.operationFeedback({type:'warn',text:'您今天剩余的初赛答题次数为0次'});
+          this.checkCount({
+            callback:(data)=>{
+              let raceCount=data.stime;
+              if(raceCount<basicConfig.maxCount){
+                this.$router.push({name:'question',params:{pageType:'single'}});
+              }else{
+                this.operationFeedback({type:'warn',text:'您今天剩余的初赛答题次数为0次'});
+              }
             }
           });
         },
 
-        checkPkCount:function (options) {
-          let account=Vue.cookie.get('account')?JSON.parse(Vue.cookie.get('account')):{};
-          let countFieldName=account.code+'_pkCount';
-          let deadlineFieldName=account.code+'_pkDeadline';
-
-          let pkDeadline=localStorage.getItem(deadlineFieldName);
-          let pkCount=5;
-          if(pkDeadline){
-            pkCount=parseInt(localStorage.getItem(countFieldName));
-          }else{
-            localStorage.setItem(deadlineFieldName,Vue.tools.genDeadline());
-            localStorage.setItem(countFieldName,5);
-          }
-
-          let curTime=new Date().getTime();
-          if(curTime<pkDeadline){
-            console.log('pkCount:',pkCount);
-            if(pkCount){
-              options.ok&&options.ok(pkCount);
-            }else{
-              options.fail&&options.fail(pkCount);
-            }
-          }else{
-            localStorage.setItem(deadlineFieldName,Vue.tools.genDeadline());
-            localStorage.setItem(countFieldName,5);
-          }
-          return pkCount;
-        },
         toPk:function () {
-          let account=Vue.cookie.get('account')?JSON.parse(Vue.cookie.get('account')):{};
-          let countFieldName=account.code+'_pkCount';
-
-          this.checkPkCount({
-            ok:(data)=>{
-              this.pkCount=data;
-              this.pkCount--;
-              localStorage.setItem(countFieldName,this.pkCount);
-              this.$router.push({name:'question',params:{pageType:'pk'}});
-            },
-            fail:()=>{
-              this.operationFeedback({type:'warn',text:'您今天剩余的对战答题次数为0次'});
+          this.checkCount({
+            callback:(data)=>{
+              let pkCount=data.ftime;
+              if(pkCount<basicConfig.maxCount){
+                this.$router.push({name:'question',params:{pageType:'pk'}});
+              }else{
+                this.operationFeedback({type:'warn',text:'您今天剩余的对战答题次数为0次'});
+              }
             }
           });
         }

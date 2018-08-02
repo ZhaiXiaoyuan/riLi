@@ -147,6 +147,30 @@ export default {
           params: params
         });
       },
+      //对战记录--邀战人
+      getInviteRecord:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'wx/fight/man/cfres',
+          params: params
+        });
+      },
+      //对战记录--应战人
+      getAcceptRecord:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'wx/fight/man/cares',
+          params: params
+        });
+      },
+      //获取对战次数
+      getTime:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'wx/cus/info/getTime',
+          params: params
+        });
+      },
     }
   },
 

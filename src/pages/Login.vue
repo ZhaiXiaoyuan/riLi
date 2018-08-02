@@ -113,6 +113,7 @@
               if(resp.status=='success'){
                 fb.setOptions({type:'complete',text:'登录成功'});
                 Vue.cookie.set('account',resp.message);
+                Vue.cookie.set('username',this.username);
 
                 let toPkId=sessionStorage.getItem('toPkId');
                 if(toPkId&&toPkId!='undefined'){
@@ -131,6 +132,15 @@
         created: function () {
         },
         mounted: function () {
+          //读取缓存的账号密码
+          let username=Vue.cookie.get('username');
+          let number=Vue.cookie.get('number');
+          if(number){
+            this.number=number;
+          }
+          if(username){
+            this.username=username;
+          }
 
         },
 

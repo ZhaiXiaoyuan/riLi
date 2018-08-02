@@ -25,8 +25,12 @@ import ExchangeFeedback from './pages/scoreMall/ExchangeFeedback'*/
 
 Vue.use(Router)
 
-
-const routes=[ {
+const routes=[
+ {
+  path: '*',
+  component: (resolve) => require(['./pages/error/error404.vue'], resolve)
+},
+  {
   path: '/',
   alias: '/home',
   name: 'home',
@@ -35,7 +39,7 @@ const routes=[ {
     title:'首页',
   }
 },{
-  path: '/login',
+  path:'/login',
   name:'login',
   component: resolve => require(['./pages/Login'], resolve),
   meta:{
@@ -97,10 +101,18 @@ const routes=[ {
   meta:{
     title:'规则',
   }
-},]
+},{
+    path: '/record',
+    name:'record',
+    component: resolve => require(['./pages/Record'], resolve),
+    meta:{
+      title:'对战记录',
+    }
+  },]
 
 
 const router= new Router({
+  base:process.env.NODE_ENV=='development'?'':'/hcr/rlwx/',
   routes:routes,
   mode: 'history',
   /* scrollBehavior: function (to, from, savedPosition) {
