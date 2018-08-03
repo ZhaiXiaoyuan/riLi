@@ -464,27 +464,43 @@
                 });
               }else if(this.pageType=='pk'){
                 params.fightinfoid=this.fightid;
-                Vue.api.submitInviterAnswer(params).then((resp)=>{
-                  if(resp.status=='success'){
-                    let pkQuestion=[];
-                    if(localStorage.getItem('pkQuestion')){
-                      pkQuestion=JSON.parse(localStorage.getItem('pkQuestion'));
-                    }
-                    pkQuestion.push({
-                      accountCode:this.account.code,
-                      pkId:this.fightid,
-                      questionList:this.questionList
-                    });
-                    localStorage.setItem('pkQuestion',JSON.stringify(pkQuestion));
-                    if(!this.pkId){
+                if(!this.pkId){
+                  Vue.api.submitInviterAnswer(params).then((resp)=>{
+                    if(resp.status=='success'){
+                      let pkQuestion=[];
+                      if(localStorage.getItem('pkQuestion')){
+                        pkQuestion=JSON.parse(localStorage.getItem('pkQuestion'));
+                      }
+                      pkQuestion.push({
+                        accountCode:this.account.code,
+                        pkId:this.fightid,
+                        questionList:this.questionList
+                      });
+                      localStorage.setItem('pkQuestion',JSON.stringify(pkQuestion));
                       this.$router.push({name:'end',params:{pageType:'pk',pkId:this.fightid}});
                     }else{
-                      this.$router.push({name:'result',params:{pkId:this.pkId}});
-                    }
-                  }else{
 
-                  }
-                });
+                    }
+                  });
+                }else{
+                  Vue.api.submitInvitedAnswer(params).then((resp)=>{
+                    if(resp.status=='success'){
+                      let pkQuestion=[];
+                      if(localStorage.getItem('pkQuestion')){
+                        pkQuestion=JSON.parse(localStorage.getItem('pkQuestion'));
+                      }
+                      pkQuestion.push({
+                        accountCode:this.account.code,
+                        pkId:this.fightid,
+                        questionList:this.questionList
+                      });
+                      localStorage.setItem('pkQuestion',JSON.stringify(pkQuestion));
+                      this.$router.push({name:'result',params:{pkId:this.pkId}});
+                    }else{
+
+                    }
+                  });
+                }
               }
             }
           },
@@ -590,6 +606,10 @@
             }
           }
         },
+      beforeRouteLeave (to, from, next) {
+        clearInterval(this.interval);
+        next();
+      },
 
     };
 </script>

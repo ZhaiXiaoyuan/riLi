@@ -26,10 +26,10 @@ import ExchangeFeedback from './pages/scoreMall/ExchangeFeedback'*/
 Vue.use(Router)
 
 const routes=[
- {
+/* {
   path: '*',
   component: (resolve) => require(['./pages/error/error404.vue'], resolve)
-},
+},*/
   {
   path: '/',
   alias: '/home',
@@ -64,14 +64,14 @@ const routes=[
   name:'end',
   component: resolve => require(['./pages/End'], resolve),
   meta:{
-    title:'对战',
+    title:'答题结束',
   }
 },{
   path: '/result/:pkId',
   name:'result',
   component: resolve => require(['./pages/Result'], resolve),
   meta:{
-    title:'答题结束',
+    title:'对战结果',
   }
 },{
   path: '/rank',
@@ -112,9 +112,9 @@ const routes=[
 
 
 const router= new Router({
-  base:process.env.NODE_ENV=='development'?'':'/hcr/rlwx/',
+ /* base:process.env.NODE_ENV=='development'?'':'/hcr/rlwx/',*/
   routes:routes,
-  mode: 'history',
+/*  mode: 'history',*/
   /* scrollBehavior: function (to, from, savedPosition) {
    return savedPosition || { x: 0, y: 0 }
    }*/

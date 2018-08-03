@@ -277,6 +277,7 @@
               if(resp.status=='success'){
                 let data=JSON.parse(resp.message);
                 this.resultData=data;
+                console.log('this.resultData:',this.resultData);
                 if(this.resultData.fightinfo&&this.resultData.fightinfo.acceptername==this.account.username){
                   this.userType='accept';
                 }else{

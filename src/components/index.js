@@ -12,6 +12,7 @@ import ScrollLoad from './ScrollLoad';
 import SignInModal from './SignInModal';
 import NavBar from './NavBar';
 import ShareGuide from './ShareGuide';
+import CelebrateModal from './CelebrateModal';
 
 
 /*全局组件注册配置*/
@@ -28,6 +29,7 @@ export default {
     Vue.component('SignInModal',SignInModal);
     Vue.component('NavBar',NavBar);
     Vue.component('ShareGuide',ShareGuide);
+    Vue.component('CelebrateModal',CelebrateModal);
 
     /*方法调度方式*/
     let OperationFeedbackConstructor = Vue.extend(OperationFeedback);
@@ -35,6 +37,7 @@ export default {
     let ConfrimModalConstructor=Vue.extend(ConfirmModal);
     let SignInModalConstructor=Vue.extend(SignInModal);
     let ShareGuideConstructor=Vue.extend(ShareGuide);
+    let CelebrateModalConstructor=Vue.extend(CelebrateModal);
     const functionObject={
       /**
        * 操作提示
@@ -201,6 +204,20 @@ export default {
         let parentEle=document.getElementById('app');
         //
         let instance=new ShareGuideConstructor({});
+        instance.options=options;
+        instance.$mount();
+        parentEle.appendChild(instance.$el);
+      },
+      /**
+       *完成答题弹窗
+       * @param options
+       */
+      celebrateModal:function (options) {
+        options={...{},...options};
+        //
+        let parentEle=document.getElementById('app');
+        //
+        let instance=new CelebrateModalConstructor({});
         instance.options=options;
         instance.$mount();
         parentEle.appendChild(instance.$el);

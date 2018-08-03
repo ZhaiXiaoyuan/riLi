@@ -19,7 +19,7 @@
                 <div class="entry-bd">
                   <div class="part left-part">
                     <p class="name">{{item.fightername}}</p>
-                    <p class="score">得分：{{item.fighterscore}}</p>
+                    <p class="score" v-if="item.status=='20'">得分：{{item.fighterscore}}</p>
                   </div>
                   <div class="middle-part">vs</div>
                   <div class="part right-part" v-if="item.acceptername">
@@ -226,9 +226,9 @@
           },
           toDetail:function (item) {
             if(item.status=='20'){
-              this.$router.push({name:'result',params:{pkId:item.fighterid}});
+              this.$router.push({name:'result',params:{pkId:item.id}});
             }else{
-              this.$router.push({name:'end',params:{pageType:'pk',pkId:item.fightid}});
+              this.$router.push({name:'end',params:{pageType:'pk',pkId:item.id}});
             }
           },
           setType:function (type) {

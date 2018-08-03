@@ -128,9 +128,13 @@
             Vue.api.getPkResult(params).then((resp)=>{
               if(resp.status=='success'){
                 let data=JSON.parse(resp.message);
-                console.log('data:',data);
-                if(data.pkStatus=='10'){
-                  if(data.who!='当前是邀战人'&&data.mess=='暂未有应战人接受对战'){
+                if(data.who=='当前是邀战人'){
+                  document.title='日立电梯邀你对战';
+                }else{
+
+                }
+                if(data.pkStatus=='0'){
+                  if(data.who!='当前是邀战人'){
                     clearInterval(this.interval);
                     this.$router.push({name:'question',params:{pageType:'pk',pkId:this.pkId}});
                   }
@@ -149,13 +153,12 @@
         },
         mounted: function () {
           //
-          if(!this.$route.query.refreshFlag&&this.pageType=='pk'&&this.pkId){
-            window.location.replace(window.location.href+'?refreshFlag=true');
-          }
-          //
           this.pageType=this.$route.params.pageType;
           this.pkId=this.$route.params.pkId;
           //
+          if(!this.$route.query.refreshFlag&&this.pageType=='pk'&&this.pkId){
+            window.location.href=window.location.href+'?refreshFlag=true';
+          }
           //
           this.sessionInfo();
           //
@@ -173,10 +176,6 @@
             },3000)
           }
         },
-      beforeRouteEnter (to, from, next) {
-        /*window.location.href=to.fullPath+'?random='+Math.random();*/
-        next();
-      },
        beforeRouteLeave (to, from, next) {
          clearInterval(this.interval);
          next();

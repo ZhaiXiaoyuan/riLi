@@ -23,7 +23,7 @@
                 </div>
                 <div class="item">
                   <p>{{customerRankInfo.wincounts}}</p>
-                  <p>挑战场数<em>(场)</em></p>
+                  <p>挑战胜场数<em>(场)</em></p>
                 </div>
               </div>
             </div>

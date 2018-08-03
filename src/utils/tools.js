@@ -260,7 +260,11 @@ export default {
             callback:(data)=>{
               let raceCount=data.stime;
               if(raceCount<basicConfig.maxCount){
-                this.$router.push({name:'question',params:{pageType:'single'}});
+                if(data.simuflag){
+                  this.celebrateModal({});
+                }else{
+                  this.$router.push({name:'question',params:{pageType:'single'}});
+                }
               }else{
                 this.operationFeedback({type:'warn',text:'您今天剩余的初赛答题次数为0次'});
               }
