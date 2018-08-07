@@ -129,7 +129,7 @@
               if(resp.status=='success'){
                 let data=JSON.parse(resp.message);
                 console.log('data:',data);
-                if(!data.who){
+                if(data.pkStatus!=0&&!data.who){
                   this.$router.push({name:'error',params:{}});
                   return;
                 }

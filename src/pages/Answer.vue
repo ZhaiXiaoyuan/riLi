@@ -103,7 +103,30 @@
         computed: {},
         watch: {},
         methods: {
+          getPkResult:function () {
+            let params={
+              ...Vue.tools.sessionInfo(),
+              fightinfoid:this.pkId,
+            }
+            Vue.api.getPkResult(params).then((resp)=>{
+              if(resp.status=='success'){
+                let data=JSON.parse(resp.message);
+                this.resultData=data;
+                this.questionList=data.questions;
+                if(this.resultData.who=='当前是应战人'){
+                  this.questionList.forEach((item,i)=>{
+                    item.userAnswer=data.fightinfo['replya'+(i+1)];
+                  })
+                }else{
+                  this.questionList.forEach((item,i)=>{
+                    item.userAnswer=data.fightinfo['replyf'+(i+1)];
+                  })
+                }
+              }else{
 
+              }
+            });
+          },
         },
 
         created: function () {
@@ -113,12 +136,8 @@
           this.account=Vue.cookie.get('account')?JSON.parse(Vue.cookie.get('account')):{};
           console.log('test:',this.account);
           this.pkId=this.$route.params.pkId;
-          let pkQuestion=JSON.parse(localStorage.getItem('pkQuestion'));
-          console.log('pkQuestion:',pkQuestion);
-          let temList=pkQuestion.find((item)=>{
-            return item.accountCode==this.account.code&&item.pkId==this.pkId;
-          });
-          this.questionList=temList.questionList;
+
+         this.getPkResult();
         },
 
     };

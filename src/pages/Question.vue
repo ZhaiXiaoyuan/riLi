@@ -374,6 +374,25 @@
         computed: {},
         watch: {},
         methods: {
+          getPkResult:function () {
+            let params={
+              ...Vue.tools.sessionInfo(),
+              fightinfoid:this.pkId,
+            }
+            Vue.api.getPkResult(params).then((resp)=>{
+              if(resp.status=='success'){
+                let data=JSON.parse(resp.message);
+                console.log('data:',data);
+                if(data.pkStatus=='0'){
+                  this.getInvitedQuestionList();
+                }else{
+                  this.$router.push({name:'error',params:{}});
+                }
+              }else{
+
+              }
+            });
+          },
           getQuestionList:function () {
             Vue.api.getQuestionList({...Vue.tools.sessionInfo()}).then((resp)=>{
               if(resp.status=='success'){
@@ -467,16 +486,6 @@
                 if(!this.pkId){
                   Vue.api.submitInviterAnswer(params).then((resp)=>{
                     if(resp.status=='success'){
-                      let pkQuestion=[];
-                      if(localStorage.getItem('pkQuestion')){
-                        pkQuestion=JSON.parse(localStorage.getItem('pkQuestion'));
-                      }
-                      pkQuestion.push({
-                        accountCode:this.account.code,
-                        pkId:this.fightid,
-                        questionList:this.questionList
-                      });
-                      localStorage.setItem('pkQuestion',JSON.stringify(pkQuestion));
                       this.$router.push({name:'end',params:{pageType:'pk',pkId:this.fightid}});
                     }else{
 
@@ -485,16 +494,6 @@
                 }else{
                   Vue.api.submitInvitedAnswer(params).then((resp)=>{
                     if(resp.status=='success'){
-                      let pkQuestion=[];
-                      if(localStorage.getItem('pkQuestion')){
-                        pkQuestion=JSON.parse(localStorage.getItem('pkQuestion'));
-                      }
-                      pkQuestion.push({
-                        accountCode:this.account.code,
-                        pkId:this.fightid,
-                        questionList:this.questionList
-                      });
-                      localStorage.setItem('pkQuestion',JSON.stringify(pkQuestion));
                       this.$router.push({name:'result',params:{pkId:this.pkId}});
                     }else{
 
@@ -592,12 +591,16 @@
           this.account=Vue.cookie.get('account')?JSON.parse(Vue.cookie.get('account')):{};
           this.pageType=this.$route.params.pageType;
           this.pkId=this.$route.params.pkId;
+          console.log('this.pkId:',typeof this.pkId);
+          if(this.pkId&&this.pkId!=-1){
+            this.pkId=this.pkId.split('?')[0];
+          }
           if(this.pageType=='single'){
             this.getQuestionList();
           }else if(this.pageType=='pk'&&!this.pkId){
             this.getInviterQuestionList();
           }else if(this.pageType=='pk'&&this.pkId){
-            this.getInvitedQuestionList();
+            this.getPkResult();
           }else if(this.pageType=='practice'){
             this.getPracticeQuestionList();
             this.historyIndex=localStorage.getItem('practiceHistory_'+this.$route.params.practiceType,this.index);
