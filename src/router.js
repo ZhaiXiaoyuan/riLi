@@ -28,7 +28,7 @@ Vue.use(Router)
 const routes=[
 /* {
   path: '*',
-  component: (resolve) => require(['./pages/error/error404.vue'], resolve)
+  component: (resolve) => require(['./pages/error/Error404.vue'], resolve)
 },*/
   {
   path: '/',
@@ -107,6 +107,13 @@ const routes=[
     component: resolve => require(['./pages/Record'], resolve),
     meta:{
       title:'对战记录',
+    }
+  },{
+    path: '/error',
+    name:'error',
+    component: resolve => require(['./pages/error/Error'], resolve),
+    meta:{
+      title:'出错',
     }
   },]
 

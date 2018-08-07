@@ -128,10 +128,14 @@
             Vue.api.getPkResult(params).then((resp)=>{
               if(resp.status=='success'){
                 let data=JSON.parse(resp.message);
+                console.log('data:',data);
+                if(!data.who){
+                  this.$router.push({name:'error',params:{}});
+                  return;
+                }
+
                 if(data.who=='当前是邀战人'){
                   document.title='日立电梯邀你对战';
-                }else{
-
                 }
                 if(data.pkStatus=='0'){
                   if(data.who!='当前是邀战人'){
@@ -152,6 +156,7 @@
         created: function () {
         },
         mounted: function () {
+          this.account=Vue.cookie.get('account')?JSON.parse(Vue.cookie.get('account')):{};
           //
           this.pageType=this.$route.params.pageType;
           this.pkId=this.$route.params.pkId;
