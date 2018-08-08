@@ -61,6 +61,7 @@
       }
     }
     .footer-wrap{
+      margin-top: 0.4rem;
       padding: 0.4rem;
       text-align: center;
     }

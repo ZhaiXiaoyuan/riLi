@@ -1,4 +1,4 @@
-<!--404页面-->
+<!--提示页面-->
 <template>
   <div class="cm-full-page error-page">
     <i class="icon logo-icon"></i>

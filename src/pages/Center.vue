@@ -168,7 +168,7 @@
       }
     }
     .footer-wrap{
-      margin-top: 0.3rem;
+      margin-top: 1rem;
     }
   }
 </style>

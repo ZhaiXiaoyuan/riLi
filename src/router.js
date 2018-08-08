@@ -113,7 +113,7 @@ const routes=[
     name:'error',
     component: resolve => require(['./pages/error/Error'], resolve),
     meta:{
-      title:'出错',
+      title:'提示',
     }
   },]
 

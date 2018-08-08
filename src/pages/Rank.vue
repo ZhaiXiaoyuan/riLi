@@ -96,7 +96,7 @@
     .content-panel{
       margin-top: 0.3rem;
       width: 100%;
-      height: 85%;
+      height: 88%;
       padding: 0rem 0.28rem;
       .panel-hd{
         position: relative;
@@ -206,6 +206,7 @@
         font-size: 0.28rem;
         color: #333;
         font-family: '宋体';
+        text-align: left;
         p+p{
           padding-top: 0.12rem;
           font-size: 0.24rem;

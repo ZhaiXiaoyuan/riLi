@@ -7,11 +7,11 @@
           <div class="timer" v-if="pageType!='practice'">{{this.expiretime-this.timeCounter}}</div>
           <div class="type-info" v-if="pageType=='practice'">
             <p class="title">当前题库：{{$route.params.practiceType}}</p>
-            <div class="link">上次答题序号：<span v-if="(historyIndex+1)">{{historyIndex+1<10?'0'+(historyIndex+1):historyIndex+1}}题</span><div class="link-box"><input type="number" v-model="indexKeyword" placeholder="序号" maxlength="5"><span @click="search()">Go</span></div></div>
+            <div class="link">上次答题序号：<span v-if="(historyIndex+1)">{{historyIndex+1}}题</span><div class="link-box"><input type="number" v-model="indexKeyword" placeholder="序号" maxlength="5"><span @click="search()">Go</span></div></div>
           </div>
           <div class="question-item">
             <div class="item-hd">
-              {{curIndex<10?'0'+(curIndex+1):curIndex+1}}.{{curItem.content}}
+              {{curIndex+1}}.{{curItem.content}}
             </div>
             <div class="item-bd">
               <div class="answer-item" @click="selectAnswer('A')" :class="{'right':(selectedAnswer=='A'||showAnswer)&&curItem.answer=='A','wrong':selectedAnswer=='A'&&curItem.answer!='A'}">
@@ -235,6 +235,7 @@
       }
     }
     .footer-wrap{
+      margin-top: 1rem;
       padding: 0.2rem 0rem;
       width: 100%;
       text-align: center;
