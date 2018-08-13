@@ -171,6 +171,14 @@ export default {
           params: params
         });
       },
+      //获取微信配置
+      getWeChatConfig:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'wx/cus/info/wjc',
+          params: params
+        });
+      },
     }
   },
 

@@ -17,7 +17,7 @@
         </div>
         <div class="panel-bd"  v-if="pageType=='pk'">
           <p class="title">对战答题结束</p>
-          <p class="tips">请等待对手挑战后查看结果！</p>
+          <p class="tips">待好友应战后才能看到自己的分数！</p>
           <div class="btn-list">
             <div class="cm-btn cm-page-white-solid-btn" @click="shareGuide()">发起挑战</div>
             <div class="cm-btn page-white-hollow-btn" @click="toPk()">再来一局</div>
@@ -115,6 +115,7 @@
               pkId:null,
               interval:null,
               counter:0,
+              shareIcon:require('../images/common/pk-icon.png'),
             }
         },
         computed: {},
@@ -180,6 +181,18 @@
               }
             },3000)
           }
+
+          /*微信分享配置*/
+/*          Vue.tools.shareConfig({
+            title: '日立电梯邀你对战233',
+            desc:'点击链接应战',
+            link: window.location.href,
+            imgUrl: this.shareIcon,
+            callback:()=>{
+              Vue.operationFeedback({type:'complete',text:'分享成功'});
+            }
+          });*/
+
         },
        beforeRouteLeave (to, from, next) {
          clearInterval(this.interval);

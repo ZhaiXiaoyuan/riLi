@@ -11,7 +11,7 @@
           </div>
           <div class="question-item">
             <div class="item-hd">
-              {{curIndex+1}}.{{curItem.content}}
+              <span class="serial">{{curIndex+1}}.</span>{{curItem.content}}
             </div>
             <div class="item-bd">
               <div class="answer-item" @click="selectAnswer('A')" :class="{'right':(selectedAnswer=='A'||showAnswer)&&curItem.answer=='A','wrong':selectedAnswer=='A'&&curItem.answer!='A'}">
@@ -166,6 +166,10 @@
       .item-hd{
         font-size: 0.36rem;
         color: #4c4c4c;
+        .serial{
+          font-size: 0.42rem;
+          padding-right: 0.08rem;
+        }
       }
       .item-bd{
         padding: 0.3rem 0rem;
@@ -215,7 +219,8 @@
         background-size: 100% 100%;
       }
       &.right{
-        color: #25cb4b;
+        color: #fff;
+        background: #25cb4b;
         border: 1px solid rgba(37,203,75,0.18);
         box-shadow: 0px 2px 5px rgba(37,203,75,0.3);
         .right-icon{
@@ -223,7 +228,8 @@
         }
       }
       &.wrong{
-        color: #e60012;
+        color: #fff;
+        background: #e60012;
         border: 1px solid  rgba(230,0,18,0.3);
         box-shadow: 0px 2px 5px  rgba(230,0,18,0.3);
         .wrong-icon{
@@ -249,17 +255,19 @@
     &.pk{
       .answer-item{
         &.right{
-          color: #4c4c4c;
-          box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
-          border: 1px solid #e5e5e5;
+          color: #fff;
+          background: #f3c50b;
+          box-shadow: 0px 2px 5px rgba(243, 197, 11,0.2);
+          border: 1px solid #f3c50b;
           .right-icon{
             display: none;
           }
         }
         &.wrong{
-          color: #4c4c4c;
-          box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
-          border: 1px solid #e5e5e5;
+          color: #fff;
+          background: #f3c50b;
+          box-shadow: 0px 2px 5px  rgba(243, 197, 11,0.2);
+          border: 1px solid #f3c50b;
           .wrong-icon{
             display: none;
           }
@@ -460,7 +468,8 @@
               this.curIndex=index;
               this.curItem=this.questionList[index];
               if(this.expiretime){
-                this.initTimer();
+                //临时测试
+                /*this.initTimer();*/
               }
             }else{
               let answerArr=[];

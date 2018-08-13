@@ -125,16 +125,6 @@ export default {
           var pRequest=this.getRequest(url);
           return url.split('?')[0]+'?'+this.toQueryString(Object.assign({},pRequest,params))
         },
-        toAuth:function (type,redirect) {
-          if(redirect.indexOf('?')>-1){
-            redirect+='&1='+type;
-          }else{
-            redirect+='?1='+type;
-          }
-          let link=window.location.origin+'/dmjywxs/cus/auth/wxred?1='+type+'&redirect='+encodeURIComponent(redirect.replace(window.location.origin,''));
-    /*      console.log('test:',link);*/
-          window.location.href=link;
-        },
         sessionInfo:function () {
           let timestamp=this.genTimestamp();
           let number=Vue.cookie.get('number');
@@ -181,6 +171,7 @@ export default {
           Vue.api.getWeChatConfig(params).then((resp)=>{
             if(resp.status=='success'){
               var configData=JSON.parse(resp.message);
+              console.log('configData:',configData);
               wx.config({
                 debug:options.debug?true:false,
                 beta:options.beta?true:false,
@@ -212,7 +203,7 @@ export default {
           var shareInfo={
             title: options.title,
             desc:options.desc,
-            link: window.location.origin+'/dmjywxs/cus/auth/wxred?1='+1+'&redirect='+encodeURIComponent(options.link.replace(window.location.origin,'')),
+            link: options.link,
             imgUrl: options.imgUrl,
             trigger: function (res) {
               // 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回.
