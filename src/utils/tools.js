@@ -187,7 +187,7 @@ export default {
                 }
               });
               wx.error(function(res){
-                alert(JSON.parse(res));
+                alert(JSON.stringify(res));
               });
             }else{
               options.callback&&options.callback(false);

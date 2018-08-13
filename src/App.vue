@@ -64,8 +64,8 @@ export default {
     })(document, window);
 
     //
-/*    Vue.tools.wxConfig({
-      debug:false,
+    Vue.tools.wxConfig({
+      debug:true,
       beta:true,
       url:window.location.href,
       jsApiList:['hideMenuItems','onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo'], // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
@@ -74,7 +74,7 @@ export default {
 
         }
       }
-    });*/
+    });
   }
 }
 </script>

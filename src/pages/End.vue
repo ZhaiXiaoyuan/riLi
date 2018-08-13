@@ -183,7 +183,7 @@
           }
 
           /*微信分享配置*/
-/*          Vue.tools.shareConfig({
+          Vue.tools.shareConfig({
             title: '日立电梯邀你对战233',
             desc:'点击链接应战',
             link: window.location.href,
@@ -191,7 +191,7 @@
             callback:()=>{
               Vue.operationFeedback({type:'complete',text:'分享成功'});
             }
-          });*/
+          });
 
         },
        beforeRouteLeave (to, from, next) {

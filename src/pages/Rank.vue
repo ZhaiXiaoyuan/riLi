@@ -34,7 +34,8 @@
           <div class="entry-block">
             <ul class="entry-list" v-if="type=='personal'">
               <li v-for="(item,index) in entryList">
-                <div class="index">{{index+1<10?'0'+(index+1):index+1}}</div>
+                <div class="index medal-icon" :class="{'first-icon':index==0,'second-icon':index==1,'third-icon':index==2}" v-if="index<=2"></div>
+                <div class="index" v-if="index>2">{{index+1<10?'0'+(index+1):index+1}}</div>
                 <div class="user">
                   <p>{{item.username}}</p>
                   <p>{{item.orgname}}</p>
@@ -48,7 +49,8 @@
             </ul>
             <ul class="entry-list" v-if="type=='team'">
               <li v-for="(item,index) in entryList">
-                <div class="index">{{index+1<10?'0'+(index+1):index+1}}</div>
+                <div class="index medal-icon" :class="{'first-icon':index==0,'second-icon':index==1,'third-icon':index==2}" v-if="index<=2"></div>
+                <div class="index" v-if="index>2">{{index+1<10?'0'+(index+1):index+1}}</div>
                 <div class="user">
                   <p>{{item.orgname}}</p>
                   <p>日立电梯</p>
@@ -62,7 +64,8 @@
             </ul>
             <ul class="entry-list" v-if="type=='pk'">
               <li v-for="(item,index) in entryList">
-                <div class="index">{{index+1<10?'0'+(index+1):index+1}}</div>
+                <div class="index medal-icon" :class="{'first-icon':index==0,'second-icon':index==1,'third-icon':index==2}" v-if="index<=2"></div>
+                <div class="index" v-if="index>2">{{index+1<10?'0'+(index+1):index+1}}</div>
                 <div class="user">
                   <p>{{item.username}}</p>
                   <p>{{item.orgname}}</p>
@@ -200,6 +203,27 @@
         background-size: 100% 100%;
         font-size: 0.36rem;
         color: #e60012;
+      }
+      .medal-icon{
+
+      }
+      .first-icon{
+        display: inline-block;
+        background: url("../images/common/first-icon.png") no-repeat;
+        background-position: center;
+        background-size: 88% 88%;
+      }
+      .second-icon{
+        display: inline-block;
+        background: url("../images/common/second-icon.png") no-repeat;
+        background-position: center;
+        background-size: 88% 88%;
+      }
+      .third-icon{
+        display: inline-block;
+        background: url("../images/common/third-icon.png") no-repeat;
+        background-position: center;
+        background-size: 88% 88%;
       }
       .user{
         margin-left: 0.08rem;

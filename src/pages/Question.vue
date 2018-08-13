@@ -468,8 +468,7 @@
               this.curIndex=index;
               this.curItem=this.questionList[index];
               if(this.expiretime){
-                //临时测试
-                /*this.initTimer();*/
+                this.initTimer();
               }
             }else{
               let answerArr=[];
