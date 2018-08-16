@@ -392,11 +392,25 @@
               if(resp.status=='success'){
                 let data=JSON.parse(resp.message);
                 console.log('data:',data);
-                if(data.pkStatus=='0'){
-                  this.getInvitedQuestionList();
-                }else{
+                if(data.pkStatus!=0&&!data.who){
                   this.$router.push({name:'error',params:{}});
+                  return;
                 }
+
+                if(data.pkStatus=='0'){
+                  if(data.who!='当前是邀战人'){
+                    this.getInvitedQuestionList();
+                  }else{
+                    this.$router.push({name:'end',params:{pageType:'pk',pkId:this.pkId}});
+                  }
+                }else if(data.pkStatus=='10'){
+                  this.$router.push({name:'end',params:{pageType:'pk',pkId:this.pkId}});
+                }else if(data.pkStatus=='20'){
+                  this.$router.push({name:'result',params:{pkId:this.pkId}});
+                }else{
+
+                }
+
               }else{
 
               }

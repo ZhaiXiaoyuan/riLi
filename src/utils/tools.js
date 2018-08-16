@@ -130,10 +130,13 @@ export default {
           let number=Vue.cookie.get('number');
           if(!number||number==''){
             console.log('link:',window.location.href);
-            if(window.location.href.indexOf('/end/pk/')>-1){
+            let curRoute=router.history.current;
+            if(window.location.href.indexOf('/question/pk/')>-1){
               sessionStorage.setItem('toPkId',window.location.href.split('/pk/')[1]);
             }
-            router.push({name:'login',params:{}});
+            if(curRoute.name!='home'){
+              router.push({name:'login',params:{}});
+            }
           }
 
           return{
@@ -164,6 +167,7 @@ export default {
           }
         },
         wxConfig:function (options) {
+          console.log('wxConfig:');
           var params=Object.assign({
               ...this.sessionInfo(),
             url:window.location.href,
@@ -182,12 +186,18 @@ export default {
                 jsApiList: options.jsApiList
               });
               wx.ready(function () {
+               /* sessionStorage.removeItem('initingWxConfig');*/
                 if(options.callback){
                   options.callback&&options.callback(true);
                 }
               });
               wx.error(function(res){
-                alert(JSON.stringify(res));
+                //刷新以再次进行微信配置
+               /* if(!sessionStorage.getItem('initingWxConfig')&&window.location.href.indexOf('question')==-1){
+                  alert('reload');
+                  sessionStorage.setItem('initingWxConfig','true');
+                  window.location.reload();
+                }*/
               });
             }else{
               options.callback&&options.callback(false);
@@ -195,11 +205,6 @@ export default {
           });
         },
         shareConfig:function (options) {
-          if(options.link.indexOf('?')>-1){
-            options.link+='&1='+1;
-          }else{
-            options.link+='?1='+1;
-          }
           var shareInfo={
             title: options.title,
             desc:options.desc,

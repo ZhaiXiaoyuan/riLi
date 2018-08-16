@@ -34,7 +34,6 @@ export default {
       const toDepth = to.path.split('/').length
       const fromDepth = from.path.split('/').length
       this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left';
-    /*  console.log('this.transitionName:',this.transitionName);*/
     }
   },
   mounted: function () {
@@ -64,7 +63,7 @@ export default {
     })(document, window);
 
     //
-    Vue.tools.wxConfig({
+ /*   Vue.tools.wxConfig({
       debug:true,
       beta:true,
       url:window.location.href,
@@ -74,7 +73,7 @@ export default {
 
         }
       }
-    });
+    });*/
   }
 }
 </script>

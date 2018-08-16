@@ -200,6 +200,43 @@
         },
 
         created: function () {
+          //
+          if(!sessionStorage.getItem('refreshFlag')){
+            sessionStorage.setItem('refreshFlag','true');
+            window.location.reload();
+          }else{
+            sessionStorage.removeItem('refreshFlag');
+
+            Vue.tools.wxConfig({
+              debug:false,
+              beta:true,
+              url:window.location.href,
+              jsApiList:['hideMenuItems','onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo'], // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+              callback:(data)=>{
+                if(data){
+                  Vue.tools.shareConfig({
+                    title: '兄dei，一起来玩吧！',
+                    desc:'属于我们自己的王者争霸，还有丰厚的赏金等着你！勇敢的少年啊，快来挑战吧！',
+                    link: window.location.href,
+                    imgUrl: 'http://i4.bvimg.com/658256/ead7a275bdfea099.png',
+                    callback:()=>{
+                      Vue.operationFeedback({type:'complete',text:'分享成功'});
+                    }
+                  });
+                }
+              }
+            });
+          }
+/*
+          Vue.tools.shareConfig({
+            title: '兄dei，一起来玩吧！',
+            desc:'属于我们自己的王者争霸，还有丰厚的赏金等着你！勇敢的少年啊，快来挑战吧！',
+            link: window.location.href,
+            imgUrl: 'http://i4.bvimg.com/658256/ead7a275bdfea099.png',
+            callback:()=>{
+              Vue.operationFeedback({type:'complete',text:'分享成功'});
+            }
+          });*/
         },
         mounted: function () {
           this.account=Vue.cookie.get('account')?JSON.parse(Vue.cookie.get('account')):{};

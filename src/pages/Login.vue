@@ -1,7 +1,7 @@
 <!--登录-->
 <template>
     <div class="login">
-      <i class="icon logo-icon"></i>
+      <i class="icon logo-black-icon"></i>
       <div style="margin-top: 0.4rem">
         <i class="icon app-title-icon"></i>
       </div>
@@ -22,9 +22,11 @@
         <swiper :options="swiperOption">
           <swiper-slide v-for="(item,index) in swiperList" :key="item.id">
             <a style="display:block;width: 100%;height: 100%" v-if="item.type=='imgLink'" v-bind:href="item.url" :style="{background: 'url('+item.imageUrl+') no-repeat center',backgroundSize: 'cover'}"></a>
-            <div style="display:block;width: 100%;height: 100%" v-if="item.type=='html'" v-html="item.html"></div>
+            <div class="tips-text-wrap" style="display:block;width: 100%;height: 100%;padding: 0rem 0.4rem;width: 100%;" v-if="item.type=='html'">
+              <div style="display: inline-block" v-html="item.html" v-for="n in 20"></div>
+            </div>
           </swiper-slide>
-          <div class="swiper-pagination" slot="pagination"></div>
+          <div class="swiper-pagination" slot="pagination" v-if="swiperList.length>1"></div>
 
         </swiper>
       </div>
@@ -100,6 +102,37 @@
        background: #e60012;
       }
     }
+  }
+  .tips-view-win{
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 0.4rem;
+    overflow: hidden;
+  }
+  @keyframes gundong{
+    0%{ left:0; }
+    100%{ left:-2000px; }
+  }
+  .tips-text-wrap{
+    display: flex;
+    height: 100%;
+    position:absolute;
+    align-items: center;
+    animation:gundong 70s linear infinite;
+    word-break: keep-all;
+    white-space: nowrap;
+  }
+  /*.tips-text-wrap:hover{
+      animation-play-state:paused;
+    }*/
+  .tips-text-wrap span{
+    padding-right: 0.2rem;
+    border:1px solid #fff;
+    transition:all 0.5s;
+  }
+  .tips-text-wrap span:hover{
+
   }
 </style>
 
@@ -182,7 +215,7 @@
           this.swiperList=[
             {
               type:'html',
-              html:'<div style="text-align: center;padding-top: 0.2rem;font-size: 0.28rem;color: #666;"><p>员工登录时请使用8位工号</p><p style="padding-top: 0.1rem;">（如姓名：张三，工号：00035412）</p></div>'
+              html:'<div style="text-align: center;padding: 0.2rem 0.4rem 0rem 0.4rem;font-size: 0.28rem;color: #666;line-height: 0.44rem;"><p>员工登录时请输入8位数员工编号；电机工厂员工请输入4位数员工编号；日立楼宇、杭工司、杭营司员工请直接输入字母和数字，中间不加任何符号。</p></div>'
             },
             /*{
               type:'imgLink',

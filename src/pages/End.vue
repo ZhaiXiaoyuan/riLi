@@ -1,7 +1,7 @@
 <!--答题结束-->
 <template>
     <div class="cm-full-page end">
-      <i class="icon logo-icon"></i>
+      <i class="icon logo-black-icon"></i>
       <div class="content-panel">
         <div class="panel-bd" v-if="pageType=='single'&&scoreData">
           <p class="title">答题结束，本次答题获得积分</p>
@@ -115,7 +115,6 @@
               pkId:null,
               interval:null,
               counter:0,
-              shareIcon:require('../images/common/pk-icon.png'),
             }
         },
         computed: {},
@@ -136,7 +135,7 @@
                 }
 
                 if(data.who=='当前是邀战人'){
-                  document.title='日立电梯邀你对战';
+                  /*document.title='日立电梯邀你对战';*/
                 }
                 if(data.pkStatus=='0'){
                   if(data.who!='当前是邀战人'){
@@ -155,18 +154,44 @@
         },
 
         created: function () {
+          this.pkId=this.$route.params.pkId;
+          //
+          if(!sessionStorage.getItem('refreshFlag')){
+            sessionStorage.setItem('refreshFlag','true');
+            window.location.reload();
+          }else{
+            sessionStorage.removeItem('refreshFlag');
+            let targetLink=window.location.href.split('#')[0]+'#/question/pk/'+this.pkId;
+         /*   alert(targetLink);*/
+            Vue.tools.wxConfig({
+              debug:false,
+              beta:true,
+              url:window.location.href,
+              jsApiList:['hideMenuItems','onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo'], // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+              callback:(data)=>{
+                if(data){
+                  Vue.tools.shareConfig({
+                    title: '兄dei，一起来玩吧！',
+                    desc:'属于我们自己的王者争霸，还有丰厚的赏金等着你！勇敢的少年啊，快来挑战吧！',
+                    link: targetLink,
+                    imgUrl: 'http://i4.bvimg.com/658256/ead7a275bdfea099.png',
+                    callback:()=>{
+                      Vue.operationFeedback({type:'complete',text:'分享成功'});
+                    }
+                  });
+                }
+              }
+            });
+          }
         },
         mounted: function () {
           this.account=Vue.cookie.get('account')?JSON.parse(Vue.cookie.get('account')):{};
           //
           this.pageType=this.$route.params.pageType;
-          this.pkId=this.$route.params.pkId;
           //
-          if(!this.$route.query.refreshFlag&&this.pageType=='pk'&&this.pkId){
+         /* if(!this.$route.query.refreshFlag&&this.pageType=='pk'&&this.pkId){
             window.location.href=window.location.href+'?refreshFlag=true';
-          }
-          //
-          this.sessionInfo();
+          }*/
           //
           if(this.pageType=='single'){
             this.scoreData=JSON.parse(Vue.cookie.get('scoreData'));
@@ -176,24 +201,18 @@
             this.interval=setInterval(()=>{
               this.getPkResult();
               this.counter++;
-              if(this.counter>300){
+              if(this.counter>200){
                 clearInterval(this.interval);
               }
             },3000)
           }
 
-          /*微信分享配置*/
-          Vue.tools.shareConfig({
-            title: '日立电梯邀你对战233',
-            desc:'点击链接应战',
-            link: window.location.href,
-            imgUrl: this.shareIcon,
-            callback:()=>{
-              Vue.operationFeedback({type:'complete',text:'分享成功'});
-            }
-          });
-
         },
+      beforeRouteEnter (to, from, next) {
+        //
+        Vue.tools.sessionInfo();
+        next();
+      },
        beforeRouteLeave (to, from, next) {
          clearInterval(this.interval);
          next();

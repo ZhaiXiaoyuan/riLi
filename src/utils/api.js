@@ -40,6 +40,7 @@ export default {
     }
 
     /**/
+    //临时测试
     let basicUrl=process.env.NODE_ENV=='development'?'/api/':'http://dev1.elecplus.net/rlwxs/';
    // let basicUrl=process.env.NODE_ENV=='development'?'/api':'http://www.mk-dingneng.com/dmjywxs';
     Vue.api={

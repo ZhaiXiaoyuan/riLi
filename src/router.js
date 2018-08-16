@@ -130,6 +130,13 @@ const router= new Router({
 //注册全局导航守卫
 router.beforeEach((to,from,next) => {
   let url=window.location.href;
+  //当从微信跳转回前端时会在地址上拼接额外的参数，导致了地址格式错乱，故对此进行替换处理
+  let linkAnalysis=url.match(/\/\?from(\S*)#\//);
+  let wrongUrlData=linkAnalysis?linkAnalysis[0]:null;
+  if(wrongUrlData&&wrongUrlData!=''){
+    window.location.replace(url.replace(wrongUrlData,'/#/'))
+  }
+  //
   if(to.name!='login'&&to.name!='home'){
     Vue.tools.sessionInfo();
   }
