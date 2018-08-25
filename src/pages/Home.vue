@@ -10,7 +10,7 @@
             <!--<div class="progress-value">85%</div>-->
           </div>
         </div>
-        <div class="slogan">天天向上，追求卓越</div>
+        <div class="slogan">天天向上&nbsp;&nbsp;追求卓越</div>
       </div>
       <div class="cm-footer">
         <i class="icon footer-icon"></i>
@@ -150,7 +150,7 @@
         created: function () {
          /* Vue.tools.shareConfig({
             title: '兄dei，一起来玩吧！',
-            desc:'属于我们自己的王者争霸，还有丰厚的赏金等着你！勇敢的少年啊，快来挑战吧！',
+            desc:'属于我们日立电梯的王者争霸，还有丰厚的赏金等着你！勇敢的少年啊，快来挑战吧！',
             link: window.location.href,
             imgUrl: 'http://i4.bvimg.com/658256/ead7a275bdfea099.png',
             callback:()=>{
@@ -167,7 +167,7 @@
               if(data){
                 Vue.tools.shareConfig({
                   title: '兄dei，一起来玩吧！',
-                  desc:'属于我们自己的王者争霸，还有丰厚的赏金等着你！勇敢的少年啊，快来挑战吧！',
+                  desc:'属于我们日立电梯的王者争霸，还有丰厚的赏金等着你！勇敢的少年啊，快来挑战吧！',
                   link: window.location.href,
                   imgUrl: 'http://i4.bvimg.com/658256/ead7a275bdfea099.png',
                   callback:()=>{

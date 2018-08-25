@@ -6,7 +6,11 @@
         <div class="panel-bd">
           <div class="timer" v-if="pageType!='practice'">{{this.expiretime-this.timeCounter}}</div>
           <div class="type-info" v-if="pageType=='practice'">
-            <p class="title">当前题库：{{$route.params.practiceType}}</p>
+            <div class="title">
+              <span class="cm-btn switch-btn last-btn" v-if="curIndex>0" @click="lastPractice()">上一题</span>
+              当前题库：{{$route.params.practiceType}}
+              <span class="cm-btn switch-btn next-btn" v-if="curIndex<questionList.length-1" @click="nextPractice()">下一题</span>
+            </div>
             <div class="link">上次答题序号：<span v-if="(historyIndex+1)">{{historyIndex+1}}题</span><div class="link-box"><input type="number" v-model="indexKeyword" placeholder="序号" maxlength="5"><span @click="search()">Go</span></div></div>
           </div>
           <div class="question-item">
@@ -51,6 +55,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <p class="title">回答错误</p>
+            <span class="cm-btn close-btn" @click="wrongModalFlag=false"><i class="icon close-icon"></i></span>
           </div>
           <div class="modal-body">
             <div class="index"><span>{{curItem.answer}}</span></div>
@@ -111,8 +116,25 @@
       border-bottom: 1px solid #e5e5e5;
       text-align: center;
       .title{
+        position: relative;
         font-size: 0.36rem;
         color: #4c4c4c;
+      }
+      .switch-btn{
+        position: absolute;
+        top:0rem;
+        display: inline-block;
+        border: 1px solid #ef0719;
+        color: #ef0719;
+        padding: 0.08rem 0.1rem;
+        font-size: 0.24rem;
+        border-radius: 0.1rem;
+      }
+      .last-btn{
+        left: 0rem;
+      }
+      .next-btn{
+        right: 0rem;
       }
       .link{
         display: flex;
@@ -304,12 +326,25 @@
       overflow: hidden;
     }
     .modal-header{
+      position: relative;
       padding: 0.4rem;
       background: #e60012;
       .title{
         color: #fff;
         font-size: 0.36rem;
         text-align: center;
+      }
+      .close-btn{
+        display: inline-block;
+        width: 0.32rem;
+        height: 0.32rem;
+        position: absolute;
+        right: 0.3rem;
+        top:0.2rem;
+        .icon{
+          width: 100%;
+          height: 100%;
+        }
       }
     }
     .modal-body{
@@ -581,6 +616,12 @@
                 this.readQuestion(this.index);
               },1000)
             }
+          },
+          lastPractice:function () {
+            this.selectedAnswer=null;
+            let index=this.curIndex-1;
+            this.readPracticeQuestion(index);
+            this.wrongModalFlag=false;
           },
           nextPractice:function () {
             this.selectedAnswer=null;
