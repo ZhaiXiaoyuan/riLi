@@ -149,8 +149,8 @@
 
         created: function () {
          /* Vue.tools.shareConfig({
-            title: '兄dei，一起来玩吧！',
-            desc:'属于我们日立电梯的王者争霸，还有丰厚的赏金等着你！勇敢的少年啊，快来挑战吧！',
+            title: '王者PK，不服来战！',
+            desc:'Come on，你就是我命运中的对手！',
             link: window.location.href,
             imgUrl: 'http://thyrsi.com/t6/362/1535337162x-1404755636.png',
             callback:()=>{
@@ -166,8 +166,8 @@
             callback:(data)=>{
               if(data){
                 Vue.tools.shareConfig({
-                  title: '兄dei，一起来玩吧！',
-                  desc:'属于我们日立电梯的王者争霸，还有丰厚的赏金等着你！勇敢的少年啊，快来挑战吧！',
+                  title: '王者PK，不服来战！',
+                  desc:'Come on，你就是我命运中的对手！',
                   link: window.location.href,
                   imgUrl: 'http://thyrsi.com/t6/362/1535337162x-1404755636.png',
                   callback:()=>{

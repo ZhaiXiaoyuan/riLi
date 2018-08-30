@@ -672,6 +672,12 @@
               this.historyIndex=parseInt(this.historyIndex);
             }
           }
+
+          //隐藏微信分享选项
+          wx.hideMenuItems({
+            menuList: ["menuItem:share:appMessage","menuItem:share:timeline","menuItem:share:qq","menuItem:share:weiboApp","menuItem:share:facebook"] // 要显示的菜单项，所有menu项见附录3
+          });
+
         },
       beforeRouteLeave (to, from, next) {
         clearInterval(this.interval);
