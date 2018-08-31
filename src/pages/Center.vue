@@ -28,9 +28,11 @@
               <i class="icon go-icon"></i>
               <div class="text"><p>初赛模式</p><p>剩余次数（{{raceCount}}）</p></div>
             </div>
-            <div class="btn pk-btn" @click="toPk()"  :class="{'cm-disabled':!pkCount}">
-              <i class="icon pk-icon"></i>
-              <div class="text"><p>对战模式</p><p>剩余次数（{{pkCount}}）</p></div>
+            <div class="btn pk-btn">
+              <div class="btn-wrap btn pk-btn" @click="toPk()"  :class="{'cm-disabled':!pkCount}">
+                <i class="icon pk-icon"></i>
+                <div class="text"><p>对战模式</p><p>剩余次数（{{pkCount}}）</p></div>
+              </div>
               <div class="record-btn" @click="toRecord($event)"><span>对战记录</span></div>
             </div>
           </div>
@@ -215,8 +217,8 @@
               callback:(data)=>{
                 if(data){
                   Vue.tools.shareConfig({
-                    title: '王者PK，不服来战！',
-                    desc:'Come on，你就是我命运中的对手！',
+                    title: '兄dei，一起来玩吧！',
+                    desc:'属于我们日立电梯的王者争霸，还有丰厚的赏金等着你！勇敢的少年啊，快来挑战吧！',
                     link: window.location.href,
                     imgUrl: 'http://thyrsi.com/t6/362/1535337162x-1404755636.png',
                     callback:()=>{

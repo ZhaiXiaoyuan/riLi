@@ -45,7 +45,7 @@ export default {
         }
         //
         window.basicConfig={
-          maxCount:100,
+          maxCount:5,
         }
       Vue.tools = {
         /*生成请求时间戳*/

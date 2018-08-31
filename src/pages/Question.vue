@@ -501,7 +501,7 @@
                 let data=JSON.parse(resp.message);
                 this.questionList=data;
              /*   this.questionList=data.splice(0,3);*/
-                console.log('this.questionList:',this.questionList);
+              /*  console.log('this.questionList:',this.questionList);*/
                 this.readPracticeQuestion(this.index);
               }else{
 
