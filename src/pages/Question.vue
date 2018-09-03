@@ -18,6 +18,7 @@
               <span class="serial">{{curIndex+1}}.</span>{{curItem.content}}
             </div>
             <div class="item-bd">
+              <div class="question-mask" v-if="questionMask"></div>
               <div class="answer-item" @click="selectAnswer('A')" :class="{'right':(selectedAnswer=='A'||showAnswer)&&curItem.answer=='A','wrong':selectedAnswer=='A'&&curItem.answer!='A'}">
                 <span class="index">A.</span>
                 <span class="text">{{curItem.itema}}</span>
@@ -194,9 +195,18 @@
         }
       }
       .item-bd{
+        position: relative;
         padding: 0.3rem 0rem;
       /*  height: 6.2rem;
         overflow: auto;*/
+        .question-mask{
+          position: absolute;
+          top:0rem;
+          left: 0rem;
+          width: 100%;
+          height: 100%;
+          background: rgba(255,255,255,0);
+        }
       }
     }
     .answer-item{
@@ -413,6 +423,9 @@
               wrongModalFlag:false,
 
               historyIndex:0,
+
+              questionMask:false,
+              submitting:false,
             }
         },
         computed: {},
@@ -509,6 +522,7 @@
             });
           },
           readQuestion:function (index) {
+            this.questionMask=false;
             clearInterval(this.interval);
             if(index<this.questionList.length){
               this.selectedAnswer=null;
@@ -530,38 +544,79 @@
               }
               if(this.pageType=='single'){
                 params.simuinfoid=this.simuinfoid;
+                if(this.submitting){
+                  return;
+                }
+                this.submitting=true;
+                let fb=this.operationFeedback({mask:true,text:'提交中...'});
                 Vue.api.submitAnswer(params).then((resp)=>{
                   if(resp.status=='success'){
                     let data=JSON.parse(resp.message);
                     Vue.cookie.set('scoreData',resp.message);
-                    this.$router.push({name:'end',params:{pageType:'single'}});
+                    fb.setOptions({
+                      type:"complete",
+                      text:'提交成功'
+                    })
+                    setTimeout(()=>{
+                      this.$router.push({name:'end',params:{pageType:'single'}});
+                    },2000);
                   }else{
-
+                    fb.setOptions({
+                      type:"warn",
+                      text:'提交失败'
+                    })
                   }
+                  this.submitting=false;
                 });
               }else if(this.pageType=='pk'){
+                if(this.submitting){
+                  return;
+                }
+                this.submitting=true;
                 params.fightinfoid=this.fightid;
+                let fb=this.operationFeedback({mask:true,text:'提交中...'});
                 if(!this.pkId){
                   Vue.api.submitInviterAnswer(params).then((resp)=>{
                     if(resp.status=='success'){
-                      this.$router.push({name:'end',params:{pageType:'pk',pkId:this.fightid}});
+                      fb.setOptions({
+                        type:"complete",
+                        text:'提交成功'
+                      })
+                      setTimeout(()=>{
+                        this.$router.push({name:'end',params:{pageType:'pk',pkId:this.fightid}});
+                      },2000);
                     }else{
-
+                      fb.setOptions({
+                        type:"warn",
+                        text:'提交失败'
+                      })
                     }
+                    this.submitting=false;
                   });
                 }else{
                   Vue.api.submitInvitedAnswer(params).then((resp)=>{
                     if(resp.status=='success'){
-                      this.$router.push({name:'result',params:{pkId:this.pkId}});
+                      fb.setOptions({
+                        type:"complete",
+                        text:'提交成功'
+                      })
+                      setTimeout(()=>{
+                        this.$router.push({name:'result',params:{pkId:this.pkId}});
+                      },2000);
                     }else{
-
+                      fb.setOptions({
+                        type:"warn",
+                        text:'提交失败'
+                      })
                     }
+                    this.submitting=false;
                   });
                 }
               }
             }
           },
           readPracticeQuestion:function (index) {
+            this.questionMask=false;
             this.index=index;
             if(index<this.questionList.length){
               this.selectedAnswer=null;
@@ -596,6 +651,10 @@
             }
           },
           selectAnswer:function (index) {
+            if(this.submitting){
+              return;
+            }
+            this.questionMask=true;
             this.selectedAnswer=index;
             this.curItem.userAnswer=index;
             if(this.pageType=='practice'){
@@ -618,12 +677,14 @@
             }
           },
           lastPractice:function () {
+            this.questionMask=false;
             this.selectedAnswer=null;
             let index=this.curIndex-1;
             this.readPracticeQuestion(index);
             this.wrongModalFlag=false;
           },
           nextPractice:function () {
+            this.questionMask=false;
             this.selectedAnswer=null;
             let index=this.curIndex+1;
             this.readPracticeQuestion(index);
