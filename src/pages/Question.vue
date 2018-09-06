@@ -452,7 +452,9 @@
                     this.$router.push({name:'end',params:{pageType:'pk',pkId:this.pkId}});
                   }
                 }else if(data.pkStatus=='10'){
-                  this.$router.push({name:'end',params:{pageType:'pk',pkId:this.pkId}});
+                  if(data.who=='当前是邀战人'){
+                    this.$router.push({name:'end',params:{pageType:'pk',pkId:this.pkId}});
+                  }
                 }else if(data.pkStatus=='20'){
                   this.$router.push({name:'result',params:{pkId:this.pkId}});
                 }else{

@@ -135,12 +135,13 @@ router.beforeEach((to,from,next) => {
   let wrongUrlData=linkAnalysis?linkAnalysis[0]:null;
   if(wrongUrlData&&wrongUrlData!=''){
     window.location.replace(url.replace(wrongUrlData,'/#/'))
+  }else{
+    //
+    if(to.name!='login'&&to.name!='home'){
+      Vue.tools.sessionInfo();
+    }
+    next();
   }
-  //
-  if(to.name!='login'&&to.name!='home'){
-    Vue.tools.sessionInfo();
-  }
-  next();
 })
 router.afterEach((to, from) => {
   //修改页面title
