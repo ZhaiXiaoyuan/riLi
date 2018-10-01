@@ -163,6 +163,12 @@
         watch: {},
         methods: {
           login:function () {
+            //活动时间判断
+            let deadline=new Date('2018/10/1 00:00:00');
+            if(new Date().getTime()>=deadline){
+              this.operationFeedback({type:'warn',text:'活动已经截止'});
+              return;
+            }
             if(!this.username){
               this.operationFeedback({type:'warn',text:'请输入姓名'});
               return;
